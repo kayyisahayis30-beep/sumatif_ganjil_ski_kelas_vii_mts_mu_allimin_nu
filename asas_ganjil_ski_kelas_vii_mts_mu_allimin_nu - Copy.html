@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASAS Ganjil SKI Kelas VII - MTs Mu'allimin NU</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                background: white !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Custom Notification / Modal Box (Replaces alert/confirm) -->
+    <div id="custom-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all border border-slate-100">
+            <div class="flex items-center gap-3 mb-3">
+                <div id="modal-icon" class="w-10 h-10 rounded-full flex items-center justify-center bg-emerald-100 text-emerald-600">
+                    <i data-lucide="info" class="w-5 h-5"></i>
+                </div>
+                <h3 id="modal-title" class="text-lg font-bold text-slate-900">Informasi</h3>
+            </div>
+            <p id="modal-message" class="text-slate-600 text-sm leading-relaxed mb-6">Pesan notifikasi</p>
+            <div id="modal-actions" class="flex justify-end gap-2">
+                <button id="modal-cancel" class="hidden px-4 py-2 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition">Batal</button>
+                <button id="modal-confirm" class="px-5 py-2 rounded-xl text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition shadow-sm">Mengerti</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="bg-emerald-900 text-white shadow-md sticky top-0 z-30 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div id="header-logo-container" class="w-10 h-10 bg-white rounded-xl p-1 flex items-center justify-center shadow-inner overflow-hidden">
+                    <!-- Default SVG Logo MTs Mu'allimin NU -->
+                    <svg id="default-logo-svg" viewBox="0 0 100 100" class="w-full h-full">
+                        <circle cx="50" cy="50" r="46" fill="#065f46" stroke="#fbbf24" stroke-width="4"/>
+                        <path d="M50 15 L58 38 L82 38 L63 52 L70 75 L50 61 L30 75 L37 52 L18 38 L42 38 Z" fill="#fbbf24" opacity="0.25"/>
+                        <circle cx="50" cy="50" r="28" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="4 2"/>
+                        <text x="50" y="55" font-family="sans-serif" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">NU</text>
+                    </svg>
+                    <img id="custom-logo-img" src="" alt="Logo Madrasah" class="hidden w-full h-full object-contain">
+                </div>
+                <div>
+                    <h1 class="font-bold text-sm sm:text-base tracking-tight leading-tight">MTs MU'ALLIMIN NU</h1>
+                    <p class="text-emerald-200 text-xs">Asesmen Sumatif Akhir Semester Ganjil • SKI VII</p>
+                </div>
+            </div>
+
+            <div id="header-user-info" class="hidden flex items-center gap-3">
+                <div class="hidden sm:block text-right">
+                    <p id="nav-user-name" class="text-xs font-semibold text-white">Nama Pengguna</p>
+                    <p id="nav-user-role" class="text-[11px] text-emerald-300">Kelas VII</p>
+                </div>
+                <button onclick="logout()" class="p-2 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-emerald-100 transition flex items-center gap-1.5 text-xs font-medium" title="Keluar">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    <span class="hidden md:inline">Keluar</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow flex flex-col">
+
+        <!-- ==================== 1. LOGIN VIEW ==================== -->
+        <section id="view-login" class="flex-grow flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-emerald-50 via-slate-50 to-amber-50/40">
+            <div class="max-w-4xl w-full grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                
+                <!-- Left Info Panel -->
+                <div class="lg:col-span-5 bg-emerald-900 text-white p-8 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-emerald-800 rounded-full opacity-50 pointer-events-none"></div>
+                    <div class="absolute -left-12 -top-12 w-36 h-36 bg-amber-500 rounded-full opacity-10 pointer-events-none"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-800/80 border border-emerald-700 text-amber-300 text-xs font-semibold mb-6">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                            <span>Tahun Pelajaran 2026/2027</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold leading-tight mb-3">Sejarah Kebudayaan Islam</h2>
+                        <p class="text-emerald-200 text-sm mb-6">Asesmen Sumatif Akhir Semester (ASAS) Ganjil Kelas VII MTs Mu'allimin NU</p>
+                        
+                        <div class="space-y-3 text-xs text-emerald-100 bg-emerald-950/40 p-4 rounded-2xl border border-emerald-800/60">
+                            <div class="flex items-center gap-2.5">
+                                <i data-lucide="user-check" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                                <span>Penyusun: <strong>Amirotul Kayyisah, S.Pd.</strong></span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <i data-lucide="clock" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                                <span>Waktu Pengerjaan: <strong>60 Menit</strong></span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <i data-lucide="file-text" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                                <span>Jumlah Soal: <strong>40 Butir</strong> (PG, PGK, Menjodohkan, Uraian)</span>
+                            </div>
+                            <div class="flex items-center gap-2.5">
+                                <i data-lucide="award" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                                <span>KKM: <strong>80</strong> • Maksimal 2x Kesempatan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 mt-8 pt-4 border-t border-emerald-800/80 text-[11px] text-emerald-300 flex items-center justify-between">
+                        <span>CBT Madrasah Digital</span>
+                        <span>Berbasis Literasi & HOTS</span>
+                    </div>
+                </div>
+
+                <!-- Right Login Form Panel -->
+                <div class="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-center">
+                    <!-- Role Tabs -->
+                    <div class="flex p-1 bg-slate-100 rounded-2xl mb-6">
+                        <button type="button" id="tab-student" onclick="switchLoginTab('student')" class="flex-1 py-2.5 text-sm font-bold rounded-xl bg-white text-emerald-800 shadow-sm transition flex items-center justify-center gap-2">
+                            <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                            <span>Masuk Siswa</span>
+                        </button>
+                        <button type="button" id="tab-admin" onclick="switchLoginTab('admin')" class="flex-1 py-2.5 text-sm font-semibold rounded-xl text-slate-500 hover:text-slate-700 transition flex items-center justify-center gap-2">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            <span>Admin / Guru</span>
+                        </button>
+                    </div>
+
+                    <!-- Student Login Form -->
+                    <form id="form-student-login" onsubmit="handleStudentLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Nama Lengkap Siswa (Username)</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                    <i data-lucide="user" class="w-4 h-4"></i>
+                                </span>
+                                <input type="text" id="student-name" required placeholder="Contoh: Ahmad Zaki Mubarok" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Kelas</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                        <i data-lucide="users" class="w-4 h-4"></i>
+                                    </span>
+                                    <select id="student-class" required class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition appearance-none">
+                                        <option value="VII A">Kelas VII A</option>
+                                        <option value="VII B">Kelas VII B</option>
+                                        <option value="VII C">Kelas VII C</option>
+                                        <option value="VII D">Kelas VII D</option>
+                                        <option value="VII E">Kelas VII E</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Nomor Presensi (Password)</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                        <i data-lucide="key-round" class="w-4 h-4"></i>
+                                    </span>
+                                    <input type="number" id="student-absen" min="1" max="60" required placeholder="Contoh: 12" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 text-xs text-amber-800 flex items-start gap-2.5">
+                            <i data-lucide="alert-circle" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+                            <p>Gunakan <strong>Nama Lengkap</strong> sebagai username dan <strong>Nomor Presensi</strong> sebagai password. Setiap siswa hanya memiliki maksimal <strong>2 kali kesempatan</strong> mengerjakan.</p>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 px-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-600/20 transition flex items-center justify-center gap-2 text-sm">
+                            <span>Mulai Asesmen Sekarang</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+
+                    <!-- Admin Login Form -->
+                    <form id="form-admin-login" onsubmit="handleAdminLogin(event)" class="hidden space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Username Admin / Guru</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                    <i data-lucide="shield" class="w-4 h-4"></i>
+                                </span>
+                                <input type="text" id="admin-username" required placeholder="Masukkan username admin" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Password Admin / Guru</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                    <i data-lucide="lock" class="w-4 h-4"></i>
+                                </span>
+                                <input type="password" id="admin-password" required placeholder="Masukkan password" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-100 border border-slate-200 rounded-xl p-3 text-xs text-slate-600">
+                            <p class="font-semibold text-slate-700 mb-0.5">Info Login Standar Guru/Admin:</p>
+                            <p>Username: <code class="bg-white px-1.5 py-0.5 rounded border text-emerald-700 font-bold">admin</code> | Password: <code class="bg-white px-1.5 py-0.5 rounded border text-emerald-700 font-bold">guru123</code></p>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 px-6 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2 text-sm">
+                            <span>Masuk Panel Admin & Guru</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 2. EXAM VIEW (SISWA & UJI COBA ADMIN) ==================== -->
+        <section id="view-exam" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            
+            <!-- Admin Simulation Banner -->
+            <div id="admin-sim-banner" class="hidden mb-4 bg-amber-500 text-white px-4 py-2.5 rounded-2xl shadow-sm flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2 text-xs sm:text-sm font-bold">
+                    <i data-lucide="flask-conical" class="w-4 h-4"></i>
+                    <span>MODE UJI COBA GURU / ADMIN (Percobaan Tidak Terbatas)</span>
+                </div>
+                <button onclick="returnToAdminDashboard()" class="px-3 py-1 bg-white text-amber-700 hover:bg-amber-50 rounded-lg text-xs font-bold transition">
+                    Kembali ke Panel Admin
+                </button>
+            </div>
+
+            <!-- Exam Top Status Bar -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm" id="exam-q-badge">
+                        1/40
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="exam-q-type" class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">Pilihan Ganda</span>
+                            <span id="exam-q-cog" class="text-xs font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">LOTS</span>
+                        </div>
+                        <p id="exam-q-topic" class="text-xs text-slate-500 mt-0.5">Bab 1: Nabi Muhammad SAW sebagai Rahmat bagi Semesta</p>
+                    </div>
+                </div>
+
+                <!-- Timer & Progress -->
+                <div class="flex items-center gap-4 ml-auto">
+                    <div class="hidden sm:block text-right">
+                        <p class="text-[11px] text-slate-400 font-medium uppercase">Terjawab</p>
+                        <p class="text-sm font-bold text-slate-700"><span id="answered-count">0</span> / 40 Soal</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-xl shadow-inner">
+                        <i data-lucide="timer" class="w-4 h-4 text-amber-400 animate-pulse"></i>
+                        <span id="exam-timer" class="font-mono font-bold text-base tracking-wider">60:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Exam Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- Question Display Area (Left/Main) -->
+                <div class="lg:col-span-8 bg-white rounded-3xl shadow-sm border border-slate-200/80 p-5 sm:p-8">
+                    
+                    <!-- Stimulus Box -->
+                    <div id="stimulus-box" class="mb-6 bg-gradient-to-r from-emerald-50/90 to-teal-50/50 border-l-4 border-emerald-600 rounded-r-2xl p-4 sm:p-5">
+                        <div class="flex items-center gap-2 text-emerald-800 font-bold text-xs uppercase tracking-wider mb-2">
+                            <i data-lucide="book-open-check" class="w-4 h-4"></i>
+                            <span>Cermati Teks / Stimulus Berikut:</span>
+                        </div>
+                        <div id="stimulus-content" class="text-slate-700 text-sm sm:text-[15px] leading-relaxed space-y-2">
+                            <!-- Stimulus text injected here -->
+                        </div>
+                    </div>
+
+                    <!-- Question Text -->
+                    <div class="mb-6">
+                        <h3 id="question-text" class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+                            <!-- Question injected here -->
+                        </h3>
+                        <p id="question-instruction" class="text-xs text-emerald-700 font-medium mt-1.5">
+                            <!-- Dynamic instruction -->
+                        </p>
+                    </div>
+
+                    <!-- Answer Area (Dynamic based on question type) -->
+                    <div id="answer-container" class="space-y-3">
+                        <!-- Options / Inputs injected here -->
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                        <button type="button" id="btn-prev" onclick="navigateQuestion(-1)" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold text-sm flex items-center gap-2 transition disabled:opacity-40">
+                            <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                            <span>Sebelumnya</span>
+                        </button>
+
+                        <button type="button" id="btn-flag" onclick="toggleFlagQuestion()" class="px-4 py-2.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 font-semibold text-sm flex items-center gap-2 transition">
+                            <i data-lucide="flag" class="w-4 h-4"></i>
+                            <span>Ragu-ragu</span>
+                        </button>
+
+                        <button type="button" id="btn-next" onclick="navigateQuestion(1)" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm flex items-center gap-2 transition shadow-sm">
+                            <span>Selanjutnya</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+
+                        <button type="button" id="btn-submit-exam" onclick="confirmSubmitExam()" class="hidden px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm flex items-center gap-2 transition shadow-md">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                            <span>Selesai & Kumpulkan</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question Navigation Grid (Right Sidebar) -->
+                <div class="lg:col-span-4 bg-white rounded-3xl shadow-sm border border-slate-200/80 p-5 sticky top-20">
+                    <div class="flex items-center justify-between mb-4">
+                        <h4 class="font-bold text-sm text-slate-800 flex items-center gap-2">
+                            <i data-lucide="layout-grid" class="w-4 h-4 text-emerald-600"></i>
+                            <span>Navigasi Nomor Soal</span>
+                        </h4>
+                        <span class="text-xs text-slate-400">40 Butir</span>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="grid grid-cols-3 gap-2 text-[11px] text-slate-600 mb-4 bg-slate-50 p-2.5 rounded-xl">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded bg-emerald-600 inline-block"></span>
+                            <span>Dijawab</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded bg-amber-400 inline-block"></span>
+                            <span>Ragu</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-3 h-3 rounded bg-slate-200 inline-block"></span>
+                            <span>Kosong</span>
+                        </div>
+                    </div>
+
+                    <!-- Number Grid -->
+                    <div id="question-nav-grid" class="grid grid-cols-5 sm:grid-cols-8 lg:grid-cols-5 gap-2 max-h-[340px] overflow-y-auto pr-1">
+                        <!-- Buttons 1..40 injected here -->
+                    </div>
+
+                    <button type="button" onclick="confirmSubmitExam()" class="mt-5 w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2">
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                        <span>Kumpulkan Jawaban</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== 3. RESULT & CERTIFICATE VIEW ==================== -->
+        <section id="view-result" class="hidden flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 py-8">
+            
+            <!-- Printable Result Card -->
+            <div id="printable-result" class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+                <!-- Header Banner -->
+                <div class="bg-emerald-900 text-white p-6 sm:p-8 text-center relative">
+                    <div class="w-16 h-16 bg-white rounded-2xl p-1.5 mx-auto mb-3 shadow-md flex items-center justify-center" id="result-logo-box">
+                        <!-- Cloned logo -->
+                    </div>
+                    <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight">LAPORAN HASIL ASESMEN SUMATIF AKHIR SEMESTER</h2>
+                    <p class="text-emerald-200 text-xs sm:text-sm mt-1">MTs Mu'allimin NU • Mata Pelajaran: Sejarah Kebudayaan Islam (SKI)</p>
+                    <p class="text-amber-300 text-xs mt-0.5">Guru Pengampu: Amirotul Kayyisah, S.Pd.</p>
+                </div>
+
+                <!-- Score & Status Section -->
+                <div class="p-6 sm:p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center bg-slate-50 rounded-2xl p-5 border border-slate-200/80 mb-6">
+                        <div class="md:col-span-7 space-y-2 text-sm">
+                            <div class="flex justify-between border-b border-slate-200 pb-1.5">
+                                <span class="text-slate-500">Nama Peserta Didik</span>
+                                <span id="res-name" class="font-bold text-slate-900">-</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-200 pb-1.5">
+                                <span class="text-slate-500">Kelas / No. Presensi</span>
+                                <span id="res-class-absen" class="font-bold text-slate-900">-</span>
+                            </div>
+                            <div class="flex justify-between border-b border-slate-200 pb-1.5">
+                                <span class="text-slate-500">Percobaan Ke-</span>
+                                <span id="res-attempt" class="font-bold text-slate-900">1 dari 2</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Waktu Selesai</span>
+                                <span id="res-date" class="font-medium text-slate-700">-</span>
+                            </div>
+                        </div>
+
+                        <div class="md:col-span-5 flex flex-col items-center justify-center bg-white rounded-2xl p-5 border border-slate-200 shadow-sm text-center">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Nilai Akhir (KKM: 80)</span>
+                            <div id="res-score" class="text-5xl font-extrabold text-emerald-700 my-1">0</div>
+                            <span id="res-status-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                                TUNTAS / LULUS KKM
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Breakdown per Tipe Soal -->
+                    <h4 class="font-bold text-sm text-slate-800 mb-3 flex items-center gap-2">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Rincian Perolehan Skor Berdasarkan Bentuk Soal</span>
+                    </h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70">
+                            <p class="text-[11px] text-slate-500 font-semibold">Pilihan Ganda (15)</p>
+                            <p id="res-detail-pg" class="text-lg font-bold text-slate-800 mt-0.5">0 / 30</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70">
+                            <p class="text-[11px] text-slate-500 font-semibold">PG Kompleks (10)</p>
+                            <p id="res-detail-pgk" class="text-lg font-bold text-slate-800 mt-0.5">0 / 25</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70">
+                            <p class="text-[11px] text-slate-500 font-semibold">Menjodohkan (10)</p>
+                            <p id="res-detail-match" class="text-lg font-bold text-slate-800 mt-0.5">0 / 25</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70">
+                            <p class="text-[11px] text-slate-500 font-semibold">Uraian (5)</p>
+                            <p id="res-detail-essay" class="text-lg font-bold text-slate-800 mt-0.5">0 / 20</p>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Message -->
+                    <div id="res-feedback-box" class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm leading-relaxed">
+                        <!-- Dynamic feedback -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons (No Print) -->
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-3 no-print">
+                <button onclick="downloadResultHTML()" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md flex items-center gap-2 transition">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    <span>Unduh Bukti Hasil (.html)</span>
+                </button>
+                <button onclick="window.print()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm shadow-md flex items-center gap-2 transition">
+                    <i data-lucide="printer" class="w-4 h-4"></i>
+                    <span>Cetak / Simpan PDF</span>
+                </button>
+                <button id="btn-retry-exam" onclick="retryExam()" class="hidden px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md flex items-center gap-2 transition">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    <span>Kerjakan Ulang (Sisa 1x)</span>
+                </button>
+                <button id="btn-back-admin-res" onclick="returnToAdminDashboard()" class="hidden px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md flex items-center gap-2 transition">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                    <span>Kembali ke Panel Admin</span>
+                </button>
+                <button onclick="logout()" class="px-5 py-3 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-sm transition">
+                    Keluar Aplikasi
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== 4. ADMIN / GURU DASHBOARD VIEW ==================== -->
+        <section id="view-admin" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            
+            <!-- Admin Header Card -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6 mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">Panel Manajemen Guru & Admin</span>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-2">ASAS Ganjil SKI Kelas VII</h2>
+                    <p class="text-xs sm:text-sm text-slate-500">Penyusun: Amirotul Kayyisah, S.Pd. • MTs Mu'allimin NU</p>
+                </div>
+                <div class="flex flex-wrap gap-2.5">
+                    <button onclick="startAdminSimulation()" class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm shadow-md shadow-amber-500/20 flex items-center gap-2 transition">
+                        <i data-lucide="play-circle" class="w-4 h-4"></i>
+                        <span>Uji Coba Soal (Mode Siswa)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="flex overflow-x-auto gap-2 mb-6 pb-1">
+                <button onclick="switchAdminTab('questions')" id="admtab-questions" class="px-4 py-2.5 rounded-xl bg-emerald-700 text-white font-bold text-xs sm:text-sm flex items-center gap-2 shrink-0 transition">
+                    <i data-lucide="file-edit" class="w-4 h-4"></i>
+                    <span>Kelola & Edit Soal (40)</span>
+                </button>
+                <button onclick="switchAdminTab('results')" id="admtab-results" class="px-4 py-2.5 rounded-xl bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 font-semibold text-xs sm:text-sm flex items-center gap-2 shrink-0 transition">
+                    <i data-lucide="users" class="w-4 h-4"></i>
+                    <span>Rekap Nilai Siswa</span>
+                </button>
+                <button onclick="switchAdminTab('settings')" id="admtab-settings" class="px-4 py-2.5 rounded-xl bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 font-semibold text-xs sm:text-sm flex items-center gap-2 shrink-0 transition">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                    <span>Edit Logo & Password</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: KELOLA & EDIT SOAL -->
+            <div id="admin-panel-questions" class="space-y-4">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-5">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-bold text-slate-800">Filter Tipe Soal:</span>
+                            <select id="admin-filter-type" onchange="renderAdminQuestionsList()" class="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-semibold bg-slate-50">
+                                <option value="ALL">Semua Soal (40)</option>
+                                <option value="PG">Pilihan Ganda (1-15)</option>
+                                <option value="PGK">PG Kompleks (16-25)</option>
+                                <option value="MATCH">Menjodohkan (26-35)</option>
+                                <option value="ESSAY">Uraian (36-40)</option>
+                            </select>
+                        </div>
+                        <button onclick="resetDefaultQuestions()" class="px-3.5 py-1.5 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-semibold transition">
+                            Reset Soal ke Bawaan
+                        </button>
+                    </div>
+
+                    <div id="admin-questions-list" class="space-y-3 max-h-[600px] overflow-y-auto pr-1">
+                        <!-- Questions list rendered here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: REKAP NILAI SISWA -->
+            <div id="admin-panel-results" class="hidden">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div>
+                            <h3 class="font-bold text-base text-slate-900">Daftar Hasil Pengerjaan Siswa (Sesi Ini)</h3>
+                            <p class="text-xs text-slate-500">KKM = 80 • Siswa maksimal mengerjakan 2 kali.</p>
+                        </div>
+                        <button onclick="exportResultsCSV()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-2 transition">
+                            <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                            <span>Unduh Rekap Excel/CSV</span>
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                                    <th class="p-3 rounded-tl-xl">No</th>
+                                    <th class="p-3">Nama Lengkap</th>
+                                    <th class="p-3">Kelas</th>
+                                    <th class="p-3">No. Presensi</th>
+                                    <th class="p-3">Percobaan</th>
+                                    <th class="p-3">Nilai Akhir</th>
+                                    <th class="p-3 rounded-tr-xl">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-results-tbody" class="divide-y divide-slate-100">
+                                <!-- Rows injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: EDIT LOGO & PASSWORD -->
+            <div id="admin-panel-settings" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Edit Logo Card -->
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6">
+                    <h3 class="font-bold text-base text-slate-900 mb-1 flex items-center gap-2">
+                        <i data-lucide="image" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Ubah Logo Madrasah</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">Unggah gambar logo MTs Mu'allimin NU (PNG/JPG/SVG) untuk ditampilkan di header dan bukti hasil ujian.</p>
+
+                    <div class="flex items-center gap-4 mb-4 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                        <div class="w-16 h-16 bg-white rounded-xl border border-slate-200 p-1.5 flex items-center justify-center shrink-0" id="settings-logo-preview">
+                            <!-- Preview -->
+                        </div>
+                        <div class="text-xs text-slate-600">
+                            <p class="font-semibold text-slate-800">Logo Aktif Saat Ini</p>
+                            <p class="mt-0.5">Direkomendasikan rasio 1:1 (persegi) agar tampil presisi.</p>
+                        </div>
+                    </div>
+
+                    <label class="block w-full cursor-pointer">
+                        <span class="sr-only">Pilih file logo</span>
+                        <input type="file" id="logo-upload-input" accept="image/*" onchange="handleLogoUpload(event)" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 transition"/>
+                    </label>
+                    <button type="button" onclick="resetLogo()" class="mt-3 text-xs text-rose-600 hover:underline font-medium">Kembalikan ke Logo Default</button>
+                </div>
+
+                <!-- Edit Admin Password Card -->
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200/80 p-6">
+                    <h3 class="font-bold text-base text-slate-900 mb-1 flex items-center gap-2">
+                        <i data-lucide="key" class="w-4 h-4 text-emerald-600"></i>
+                        <span>Ganti Username & Password Admin</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 mb-4">Perbarui kredensial masuk untuk mengamankan akses pengelolaan soal dan nilai.</p>
+
+                    <form onsubmit="handleChangeAdminPassword(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Username Admin Baru</label>
+                            <input type="text" id="new-admin-user" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Password Baru</label>
+                            <input type="password" id="new-admin-pass" required minlength="4" placeholder="Minimal 4 karakter" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition">
+                            Simpan Perubahan Kredensial
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== EDIT QUESTION MODAL ==================== -->
+        <div id="edit-question-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-6 my-8 border border-slate-100">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                    <h3 class="font-bold text-lg text-slate-900">Edit Butir Soal #<span id="edit-q-num">1</span></h3>
+                    <button onclick="closeEditQuestionModal()" class="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <form id="form-edit-question" onsubmit="saveEditedQuestion(event)" class="space-y-4 max-h-[75vh] overflow-y-auto pr-1">
+                    <input type="hidden" id="edit-q-index">
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Level Kognitif</label>
+                            <select id="edit-q-cog" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold">
+                                <option value="LOTS">LOTS</option>
+                                <option value="MOTS">MOTS</option>
+                                <option value="HOTS">HOTS</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Materi / Bab</label>
+                            <input type="text" id="edit-q-topic" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Teks Stimulus / Bacaan</label>
+                        <textarea id="edit-q-stimulus" rows="3" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs leading-relaxed"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Pertanyaan</label>
+                        <textarea id="edit-q-text" rows="2" required class="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs font-medium"></textarea>
+                    </div>
+
+                    <!-- Dynamic Fields per Question Type -->
+                    <div id="edit-q-dynamic-fields" class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <!-- Injected via JS -->
+                    </div>
+
+                    <div class="flex justify-end gap-2 pt-2">
+                        <button type="button" onclick="closeEditQuestionModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Batal</button>
+                        <button type="submit" class="px-5 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white">Simpan Soal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-4 text-center text-xs text-slate-500 no-print">
+        <p>© 2026 MTs Mu'allimin NU • Asesmen Sumatif Akhir Semester Ganjil SKI Kelas VII • Disusun oleh <strong>Amirotul Kayyisah, S.Pd.</strong></p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC & DATA BANK -->
+    <script>
+        // ==========================================
+        // 1. STATE MANAGEMENT & CREDENTIALS
+        // ==========================================
+        let adminCreds = {
+            username: 'admin',
+            password: '123' // Standar awal
+        };
+        // Set default password sesuai petunjuk di form login
+        adminCreds.password = 'guru123';
+
+        let currentUser = null; // { role: 'student' | 'admin', name, className, absen, attempt }
+        let studentAttempts = {}; // Key: "Nama_Kelas_Absen" -> count (max 2)
+        let examRecords = []; // Menyimpan riwayat nilai siswa sesi ini
+        let customLogoDataUrl = null;
+
+        // Exam Runtime State
+        let currentQuestionIdx = 0;
+        let userAnswers = {}; // { qId: answer }
+        let flaggedQuestions = {}; // { qId: boolean }
+        let timerInterval = null;
+        let timeRemaining = 60 * 60; // 60 menit dalam detik
+
+        // ==========================================
+        // 2. BANK SOAL LENGKAP (40 SOAL BERBASIS STIMULUS & LITERASI)
+        // Tanpa menampilkan kata "kontekstual" di teks soal
+        // Bab 1: Rahmat bagi Semesta (Makkah)
+        // Bab 2: Masyarakat Madinah & Hijrah
+        // Bab 3: Khulafaurrasyidin
+        // ==========================================
+        const defaultQuestions = [
+            // --- 15 SOAL PILIHAN GANDA (NO 1 - 15) ---
+            {
+                id: 1,
+                type: 'PG',
+                cog: 'LOTS',
+                topic: 'Bab 1: Kehidupan Masyarakat Arab Sebelum Islam',
+                stimulus: 'Sebelum kedatangan Islam, masyarakat Jazirah Arab dikenal hidup dalam era Jahiliyah. Meskipun demikian, bangsa Arab memiliki tradisi luhur yang sangat dijaga, seperti menghormati tamu, menepati janji, serta kemampuan bersyair yang tinggi di Pasar Ukaz. Namun, dalam aspek keyakinan, mayoritas penduduk Makkah menyembah berhala yang diletakkan di sekitar Ka’bah seperti Hubal, Latta, Uzza, dan Manat.',
+                question: 'Berdasarkan bacaan di atas, sebutan bagi berhala terbesar yang diletakkan di dalam Ka’bah oleh masyarakat Makkah sebelum Islam adalah ....',
+                options: ['Latta', 'Hubal', 'Uzza', 'Manat'],
+                answer: 1 // B
+            },
+            {
+                id: 2,
+                type: 'PG',
+                cog: 'MOTS',
+                topic: 'Bab 1: Kehidupan Masyarakat Arab Sebelum Islam',
+                stimulus: 'Masyarakat Arab pra-Islam terbagi menjadi dua kelompok berdasarkan tempat tinggalnya, yaitu penduduk perkotaan (Ahlul Hadhar) dan penduduk pedalaman (Ahlul Badwi). Penduduk Badui hidup berpindah-pindah (nomaden) menggembala ternak untuk mencari padang rumput dan sumber air, sedangkan penduduk perkotaan seperti Makkah mengandalkan jalur perdagangan lintas negeri pada musim dingin ke Yaman dan musim panas ke Syam.',
+                question: 'Faktor utama yang menyebabkan penduduk Makkah lebih memilih mata pencaharian berdagang dibandingkan bertani adalah ....',
+                options: [
+                    'Kondisi geografis Makkah berupa lembah tandus dan berbatu yang kurang cocok untuk pertanian',
+                    'Masyarakat Makkah tidak memiliki pengetahuan tentang cara bercocok tanam',
+                    'Seluruh tanah di wilayah Hijaz dikuasai oleh kerajaan Romawi dan Persia',
+                    'Larangan dari para pemuka suku Quraisy untuk mengolah lahan pertanian'
+                ],
+                answer: 0
+            },
+            {
+                id: 3,
+                type: 'PG',
+                cog: 'HOTS',
+                topic: 'Bab 1: Kehidupan Masyarakat Arab Sebelum Islam',
+                stimulus: 'Dalam tatanan sosial Arab pra-Islam, solidaritas kesukuan (ashabiyah) sangat kuat. Jika satu anggota suku disakiti, seluruh kabilah akan bangkit membela tanpa memedulikan siapa yang benar atau salah. Di sisi lain, kelahiran anak perempuan sering dianggap membawa aib bagi keluarga sehingga muncul praktik mengubur bayi perempuan hidup-hidup.',
+                question: 'Jika nilai-nilai kemanusiaan yang dibawa Rasulullah SAW diterapkan untuk memperbaiki kondisi sosial pada teks tersebut, perubahan mendasar yang terjadi adalah ....',
+                options: [
+                    'Menghapus seluruh sistem kekerabatan antar kabilah di Jazirah Arab',
+                    'Mengganti fanatisme kesukuan buta dengan persaudaraan seiman serta memuliakan martabat perempuan',
+                    'Memberikan hak waris lebih besar kepada kaum perempuan dibandingkan laki-laki',
+                    'Mewajibkan seluruh suku Arab untuk meninggalkan tradisi bersyair dan berdagang'
+                ],
+                answer: 1
+            },
+            {
+                id: 4,
+                type: 'PG',
+                cog: 'LOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Setelah menerima wahyu kedua (QS. Al-Muddassir ayat 1–7), Nabi Muhammad SAW memulai dakwah secara sembunyi-sembunyi (sirriyah) selama kurang lebih tiga tahun. Beliau mengajak kerabat dekat dan sahabat terpercaya. Rumah salah seorang sahabat yang terletak di kaki Bukit Shafa dijadikan pusat pembinaan akidah bagi para pemeluk Islam generasi awal.',
+                question: 'Sahabat yang merelakan rumahnya dijadikan sebagai pusat pendidikan dan dakwah secara sembunyi-sembunyi di Makkah adalah ....',
+                options: [
+                    'Zaid bin Haritsah',
+                    'Bilal bin Rabah',
+                    'Arqam bin Abil Arqam',
+                    'Utsman bin Affan'
+                ],
+                answer: 2
+            },
+            {
+                id: 5,
+                type: 'PG',
+                cog: 'MOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Pada tahap awal dakwah di Makkah, golongan orang-orang yang pertama kali masuk Islam (Assabiqunal Awwalun) berasal dari berbagai latar belakang sosial. Ada dari kalangan bangsawan seperti Abu Bakar Ash-Shiddiq, kalangan anak-anak seperti Ali bin Abi Thalib, hingga kalangan budak seperti Bilal bin Rabah dan Zaid bin Haritsah.',
+                question: 'Mengapa ajaran Islam yang disampaikan Nabi Muhammad SAW cepat diterima oleh kalangan budak dan masyarakat lemah di Makkah?',
+                options: [
+                    'Nabi menjanjikan kekayaan melimpah bagi setiap budak yang masuk Islam',
+                    'Islam mengajarkan kesetaraan derajat manusia di hadapan Allah tanpa membedakan status sosial',
+                    'Para bangsawan Quraisy memerintahkan budak mereka untuk mengikuti ajaran baru',
+                    'Kaum budak ingin membentuk pasukan perang untuk melawan pemimpin Makkah'
+                ],
+                answer: 1
+            },
+            {
+                id: 6,
+                type: 'PG',
+                cog: 'HOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Ketika tekanan dan penyiksaan kafir Quraisy terhadap kaum muslimin semakin berat pada tahun ke-5 kenabian, Nabi Muhammad SAW memerintahkan sebagian sahabat untuk berhijrah ke Habasyah (Ethiopia). Negeri tersebut dipimpin oleh seorang raja beragama Nasrani bernama Raja Najasyi yang dikenal adil dan tidak pernah menzalimi siapa pun di negerinya.',
+                question: 'Pelajaran strategis yang dapat dipetik dari keputusan Nabi Muhammad SAW memilih Habasyah sebagai tujuan hijrah pertama adalah ....',
+                options: [
+                    'Dakwah Islam hanya dapat berkembang di wilayah yang dipimpin oleh penguasa non-Arab',
+                    'Pentingnya diplomasi lintas keyakinan dan mencari perlindungan di wilayah yang menjunjung tinggi keadilan',
+                    'Kaum muslimin harus meninggalkan tanah kelahiran secara permanen ketika menghadapi ujian',
+                    'Kekuatan militer Raja Najasyi dimanfaatkan untuk menyerang kota Makkah dari arah selatan'
+                ],
+                answer: 1
+            },
+            {
+                id: 7,
+                type: 'PG',
+                cog: 'LOTS',
+                topic: 'Bab 2: Kehidupan Masyarakat Madinah Sebelum Islam',
+                stimulus: 'Sebelum Nabi Muhammad SAW hijrah, Kota Madinah bernama Yatsrib. Kota ini memiliki lahan subur dengan banyak kebun kurma dan mata air. Penduduk Yatsrib terdiri dari dua kelompok besar, yaitu bangsa Arab (Suku Aus dan Khazraj) serta bangsa Yahudi (Bani Qainuqa, Bani Nadhir, dan Bani Quraizhah).',
+                question: 'Dua suku besar bangsa Arab yang tinggal di Yatsrib dan sering terlibat konflik berkepanjangan sebelum kedatangan Islam adalah ....',
+                options: [
+                    'Suku Quraisy dan Suku Tsaqif',
+                    'Suku Aus dan Suku Khazraj',
+                    'Suku Bani Hasyim dan Bani Umayyah',
+                    'Suku Bakr dan Suku Taghlib'
+                ],
+                answer: 1
+            },
+            {
+                id: 8,
+                type: 'PG',
+                cog: 'MOTS',
+                topic: 'Bab 2: Peristiwa Hijrah Nabi Muhammad dan Hikmahnya',
+                stimulus: 'Pada tahun ke-12 kenabian, dua belas orang penduduk Yatsrib menemui Nabi Muhammad SAW di Aqabah dan menyatakan ikrar setia. Setahun kemudian, pada musim haji berikutnya, 73 pria dan 2 wanita dari Yatsrib kembali berbaiat untuk melindungi Nabi sebagaimana mereka melindungi keluarga mereka sendiri. Nabi kemudian mengutus Mush’ab bin Umair ke Yatsrib.',
+                question: 'Peran utama Mush’ab bin Umair setelah diutus oleh Nabi Muhammad SAW ke Yatsrib pasca Baiat Aqabah I adalah ....',
+                options: [
+                    'Membangun benteng pertahanan di perbatasan Kota Yatsrib',
+                    'Mengajarkan Al-Qur’an dan dasar-dasar agama Islam kepada penduduk Yatsrib',
+                    'Mengumpulkan pajak perdagangan dari kabilah-kabilah Yahudi',
+                    'Menjadi panglima perang untuk mendamaikan Suku Aus dan Khazraj'
+                ],
+                answer: 1
+            },
+            {
+                id: 9,
+                type: 'PG',
+                cog: 'HOTS',
+                topic: 'Bab 2: Membangun Masyarakat Madinah yang Berperadaban',
+                stimulus: 'Setibanya di Madinah, langkah pertama yang dilakukan Rasulullah SAW adalah membangun Masjid Nabawi, mempersaudarakan kaum Muhajirin dan Anshar, serta menyusun Piagam Madinah (Shahifah Madinah). Piagam ini mengatur hak dan kewajiban seluruh warga Madinah baik muslim maupun non-muslim (Yahudi) dalam menjaga keamanan kota bersama.',
+                question: 'Berdasarkan langkah-langkah tersebut, prinsip tata kelola masyarakat yang dibangun Rasulullah SAW di Madinah mencerminkan nilai ....',
+                options: [
+                    'Dominasi satu golongan atas golongan minoritas lainnya',
+                    'Toleransi beragama, persaudaraan, dan kesepakatan konstitusional dalam masyarakat majemuk',
+                    'Pemisahan total antara kehidupan beribadah dengan kehidupan bermasyarakat',
+                    'Penghapusan hak kepemilikan pribadi bagi kaum pendatang dari Makkah'
+                ],
+                answer: 1
+            },
+            {
+                id: 10,
+                type: 'PG',
+                cog: 'MOTS',
+                topic: 'Bab 2: Peristiwa Hijrah Nabi Muhammad dan Hikmahnya',
+                stimulus: 'Dalam perjalanan hijrah menuju Madinah, Nabi Muhammad SAW bersama Abu Bakar Ash-Shiddiq tidak mengambil rute jalan utama menuju utara, melainkan berbelok ke arah selatan menuju Gua Tsur dan bersembunyi di sana selama tiga hari. Beliau juga menyewa Abdullah bin Uraiqith sebagai penunjuk jalan yang mahir melewati jalur pesisir Laut Merah.',
+                question: 'Hikmah yang dapat diteladani oleh pelajar dari strategi perjalanan hijrah Nabi Muhammad SAW tersebut adalah ....',
+                options: [
+                    'Berserah diri sepenuhnya kepada takdir tanpa perlu menyusun rencana',
+                    'Perencanaan yang matang, kehati-hatian, dan memanfaatkan keahlian orang lain merupakan bagian dari ikhtiar',
+                    'Menghindari setiap tantangan dengan cara bersembunyi selamanya',
+                    'Hanya mempercayai orang-orang yang berasal dari satu keluarga saja'
+                ],
+                answer: 1
+            },
+            {
+                id: 11,
+                type: 'PG',
+                cog: 'LOTS',
+                topic: 'Bab 3: Profil dan Peran Khulafaurrasyidin',
+                stimulus: 'Sepeninggal Rasulullah SAW, kepemimpinan umat Islam dilanjutkan oleh empat sahabat utama yang dikenal sebagai Khulafaurrasyidin. Khalifah pertama adalah Abu Bakar Ash-Shiddiq yang memerintah selama kurang lebih dua tahun (11–13 H). Beliau menghadapi berbagai tantangan berat di awal masa kepemimpinannya.',
+                question: 'Gelar "Ash-Shiddiq" diberikan kepada Abu Bakar karena peristiwa ....',
+                options: [
+                    'Keberaniannya menggantikan posisi tidur Nabi saat rumah beliau dikepung',
+                    'Keteguhannya langsung membenarkan peristiwa Isra’ Mi’raj Nabi Muhammad SAW tanpa keraguan',
+                    'Kedermawanannya menyumbangkan seluruh hartanya untuk Perang Tabuk',
+                    'Kecerdasannya dalam memimpin kodifikasi mushaf Al-Qur’an'
+                ],
+                answer: 1
+            },
+            {
+                id: 12,
+                type: 'PG',
+                cog: 'MOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Pada masa Khalifah Abu Bakar Ash-Shiddiq, terjadi Perang Yamamah melawan nabi palsu Musailamah Al-Kadzab. Dalam pertempuran tersebut, sekitar 70 sahabat penghafal Al-Qur’an (huffadz) gugur sebagai syuhada. Melihat kondisi ini, Umar bin Khattab mengusulkan sebuah kebijakan penting demi menjaga kemurnian wahyu Allah.',
+                question: 'Kebijakan strategis yang diambil Khalifah Abu Bakar Ash-Shiddiq atas usulan Umar bin Khattab pasca Perang Yamamah adalah ....',
+                options: [
+                    'Menerjemahkan Al-Qur’an ke dalam bahasa Persia dan Romawi',
+                    'Mengumpulkan dan membukukan lembaran-lembaran ayat Al-Qur’an yang diketuai oleh Zaid bin Tsabit',
+                    'Membangun madrasah khusus tahfidz di setiap provinsi kekuasaan Islam',
+                    'Melarang para penghafal Al-Qur’an untuk ikut serta dalam ekspedisi militer'
+                ],
+                answer: 1
+            },
+            {
+                id: 13,
+                type: 'PG',
+                cog: 'LOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Umar bin Khattab menjabat sebagai khalifah kedua selama sepuluh tahun (13–23 H). Pada masa kepemimpinannya, wilayah Islam berkembang sangat pesat hingga mencakup Syam, Palestina, Mesir, dan Persia. Beliau juga melakukan penataan administrasi pemerintahan yang modern pada zamannya.',
+                question: 'Salah satu kontribusi Khalifah Umar bin Khattab dalam bidang penanggalan yang masih digunakan umat Islam hingga saat ini adalah ....',
+                options: [
+                    'Menetapkan kalender Hijriah yang dimulai dari peristiwa hijrah Nabi ke Madinah',
+                    'Menetapkan kalender Qamariyah berdasarkan kelahiran Nabi Muhammad SAW',
+                    'Menyatukan kalender Masehi dengan kalender Arab kuno',
+                    'Menetapkan bulan Ramadhan sebagai bulan pertama dalam tahun Hijriah'
+                ],
+                answer: 0
+            },
+            {
+                id: 14,
+                type: 'PG',
+                cog: 'MOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Pada masa pemerintahan Khalifah Utsman bin Affan, wilayah Islam semakin luas hingga ke Afrika Utara dan Asia Tengah. Perbedaan dialek (qira’at) dalam membaca Al-Qur’an di berbagai daerah mulai memicu perselisihan di kalangan umat Islam baru. Hudzaifah bin Al-Yaman melaporkan hal ini kepada Khalifah Utsman.',
+                question: 'Langkah bijak yang dilakukan Khalifah Utsman bin Affan untuk mengatasi perbedaan bacaan Al-Qur’an tersebut adalah ....',
+                options: [
+                    'Membentuk panitia penyalinan dan penyeragaman mushaf Al-Qur’an standar (Mushaf Utsmani)',
+                    'Menarik seluruh guru Al-Qur’an dari luar Madinah untuk kembali ke pusat pemerintahan',
+                    'Mewajibkan seluruh penduduk non-Arab untuk belajar bahasa Quraisy terlebih dahulu',
+                    'Membiarkan setiap daerah menggunakan dialek masing-masing tanpa standar baku'
+                ],
+                answer: 0
+            },
+            {
+                id: 15,
+                type: 'PG',
+                cog: 'HOTS',
+                topic: 'Bab 3: Profil dan Peran Khulafaurrasyidin',
+                stimulus: 'Khalifah Ali bin Abi Thalib dikenal memiliki kecerdasan luar biasa sehingga Rasulullah SAW menjulukinya "Babul Ilmi" (Gerbang Ilmu). Di masa pemerintahannya yang penuh gejolak politik, bahasa Arab mulai banyak bercampur dengan bahasa bangsa non-Arab (Ajam), sehingga muncul kekhawatiran terjadinya kesalahan dalam membaca teks Al-Qur’an yang saat itu belum memiliki tanda baca.',
+                question: 'Inovasi di bidang ilmu bahasa yang diprakarsai pada masa Khalifah Ali bin Abi Thalib bersama Abu Aswad Ad-Du’ali untuk menjaga ketepatan bacaan Al-Qur’an adalah ....',
+                options: [
+                    'Penyusunan kamus bahasa Arab pertama di Kota Kufah',
+                    'Peletakan dasar-dasar ilmu Nahwu dan pemberian tanda titik/harakat pada huruf hijaiyah',
+                    'Penerjemahan kitab-kitab filsafat Yunani ke dalam bahasa Arab',
+                    'Penulisan tafsir Al-Qur’an lengkap 30 juz dalam bentuk prosa'
+                ],
+                answer: 1
+            },
+
+            // --- 10 SOAL PILIHAN GANDA KOMPLEKS (NO 16 - 25) -> Jawaban benar lebih dari 1 ---
+            {
+                id: 16,
+                type: 'PGK',
+                cog: 'MOTS',
+                topic: 'Bab 1: Kehidupan Masyarakat Arab Sebelum Islam',
+                stimulus: 'Meskipun zaman sebelum Islam disebut masa Jahiliyah karena kebodohan dalam hal tauhid dan moralitas, bangsa Arab sebenarnya memiliki beberapa sifat positif yang tetap dipertahankan setelah Islam datang.',
+                question: 'Manakah di antara pernyataan berikut yang merupakan sifat-sifat positif masyarakat Arab pra-Islam? (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Sangat memuliakan dan menjamu tamu dengan sebaik-baiknya',
+                    'Memiliki daya hafal yang kuat dan kemampuan sastra/syair yang tinggi',
+                    'Selalu menyelesaikan perselisihan antar suku melalui jalur musyawarah damai',
+                    'Menjunjung tinggi kehormatan diri dan menepati janji yang telah diucapkan'
+                ],
+                answer: [0, 1, 3]
+            },
+            {
+                id: 17,
+                type: 'PGK',
+                cog: 'HOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Pemuka kafir Quraisy seperti Abu Jahal, Abu Lahab, dan Walid bin Mughirah menentang keras dakwah terang-terangan (jahriyah) yang dilakukan Nabi Muhammad SAW di Makkah.',
+                question: 'Faktor-faktor utama yang melatarbelakangi penolakan keras kaum bangsawan Quraisy terhadap dakwah Nabi Muhammad SAW adalah .... (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Kekhawatiran hilangnya kekuasaan dan pengaruh politik mereka di Makkah',
+                    'Ajaran persamaan derajat manusia yang mengancam sistem perbudakan dan kasta bangsawan',
+                    'Ketakutan akan merosotnya keuntungan ekonomi dari bisnis pembuatan dan penjualan berhala',
+                    'Nabi Muhammad SAW melarang seluruh aktivitas perdagangan masyarakat Makkah'
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 18,
+                type: 'PGK',
+                cog: 'LOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Selama periode dakwah di Makkah, Nabi Muhammad SAW menempuh berbagai pendekatan agar ajaran Islam dapat diterima oleh masyarakat tanpa menimbulkan pertumpahan darah.',
+                question: 'Strategi dakwah yang diterapkan oleh Rasulullah SAW selama berada di Kota Makkah meliputi .... (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Dakwah secara sembunyi-sembunyi (sirriyah) kepada keluarga dan sahabat terdekat',
+                    'Dakwah secara terang-terangan (jahriyah) dimulai dari Bukit Shafa',
+                    'Mengirim delegasi militer untuk menaklukkan kabilah-kabilah di sekitar Makkah',
+                    'Hijrah ke Habasyah untuk menyelamatkan akidah dan keselamatan para sahabat'
+                ],
+                answer: [0, 1, 3]
+            },
+            {
+                id: 19,
+                type: 'PGK',
+                cog: 'MOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Pada tahun ke-10 kenabian, Nabi Muhammad SAW mengalami peristiwa "Amul Huzni" (Tahun Kesedihan) karena wafatnya dua sosok pelindung utama dakwah beliau di Makkah.',
+                question: 'Siapakah dua tokoh penting yang wafat pada peristiwa Amul Huzni tersebut? (Pilih dua jawaban benar)',
+                options: [
+                    'Abu Thalib (paman Nabi yang selalu membela dari gangguan Quraisy)',
+                    'Hamzah bin Abdul Muthalib (singa Allah yang gugur di medan perang)',
+                    'Siti Khadijah binti Khuwailid (istri tercinta yang mendukung penuh jiwa dan harta)',
+                    'Abdul Muthalib (kakek yang mengasuh Nabi sejak kecil)'
+                ],
+                answer: [0, 2]
+            },
+            {
+                id: 20,
+                type: 'PGK',
+                cog: 'HOTS',
+                topic: 'Bab 2: Kehidupan Masyarakat Madinah Sebelum Islam',
+                stimulus: 'Masyarakat Yatsrib (Madinah) lebih mudah menerima dakwah Islam dibandingkan penduduk Makkah. Salah satu alasannya adalah adanya interaksi penduduk Arab Yatsrib dengan kaum Yahudi setempat.',
+                question: 'Mengapa interaksi dengan kaum Yahudi di Yatsrib mempermudah Suku Aus dan Khazraj menerima kedatangan Nabi Muhammad SAW? (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Penduduk Yatsrib sudah sering mendengar informasi tentang akan datangnya nabi akhir zaman dari kitab Taurat kaum Yahudi',
+                    'Suku Aus dan Khazraj merindukan sosok pemimpin adil yang mampu mendamaikan konflik saudara di antara mereka',
+                    'Kaum Yahudi Yatsrib memaksa Suku Aus dan Khazraj untuk memeluk agama tauhid',
+                    'Penduduk Yatsrib tidak memiliki ikatan fanatisme berhala sekuat kaum Quraisy di Makkah'
+                ],
+                answer: [0, 1, 3]
+            },
+            {
+                id: 21,
+                type: 'PGK',
+                cog: 'MOTS',
+                topic: 'Bab 2: Peristiwa Hijrah Nabi Muhammad dan Hikmahnya',
+                stimulus: 'Peristiwa hijrah Nabi Muhammad SAW dari Makkah ke Madinah pada tahun 622 M melibatkan peran aktif berbagai sahabat dengan tugas masing-masing yang sangat terorganisir.',
+                question: 'Pasangan sahabat dan perannya yang tepat dalam menyukseskan perjalanan hijrah Nabi ke Madinah adalah .... (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Ali bin Abi Thalib menggantikan posisi tidur Nabi di ranjang untuk mengelabui pemuda Quraisy',
+                    'Asma’ binti Abu Bakar mengantarkan perbekalan makanan menuju Gua Tsur',
+                    'Amir bin Fuhairah menggembalakan kambing untuk menghapus jejak kaki menuju Gua Tsur',
+                    'Khalid bin Walid mengawal perjalanan Nabi dari Makkah hingga tiba di Quba'
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 22,
+                type: 'PGK',
+                cog: 'HOTS',
+                topic: 'Bab 2: Membangun Masyarakat Madinah yang Berperadaban',
+                stimulus: 'Piagam Madinah (Shahifah Madinah) merupakan konstitusi tertulis pertama di dunia yang disusun oleh Rasulullah SAW untuk mengatur kehidupan masyarakat Madinah yang majemuk.',
+                question: 'Pernyataan berikut yang sesuai dengan isi pokok dan semangat Piagam Madinah adalah .... (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Setiap golongan berhak menjalankan ajaran agamanya masing-masing dengan bebas dan aman',
+                    'Seluruh warga Madinah wajib bahu-membahu mempertahankan kota dari serangan musuh luar',
+                    'Apabila terjadi perselisihan di antara warga Madinah, penyelesaiannya dikembalikan kepada Allah dan Rasul-Nya',
+                    'Penduduk non-muslim diwajibkan membayar pajak berlipat ganda agar segera meninggalkan Madinah'
+                ],
+                answer: [0, 1, 2]
+            },
+            {
+                id: 23,
+                type: 'PGK',
+                cog: 'LOTS',
+                topic: 'Bab 3: Profil dan Peran Khulafaurrasyidin',
+                stimulus: 'Khulafaurrasyidin adalah empat khalifah penerus kepemimpinan Rasulullah SAW yang mendapatkan petunjuk dan meneladani akhlak Nabi dalam memimpin umat.',
+                question: 'Manakah di antara tokoh berikut yang termasuk dalam jajaran Khulafaurrasyidin? (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Abu Bakar Ash-Shiddiq',
+                    'Umar bin Abdul Aziz',
+                    'Utsman bin Affan',
+                    'Ali bin Abi Thalib'
+                ],
+                answer: [0, 2, 3]
+            },
+            {
+                id: 24,
+                type: 'PGK',
+                cog: 'MOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Selama sepuluh tahun masa kepemimpinannya, Khalifah Umar bin Khattab melakukan berbagai reformasi kelembagaan negara untuk meningkatkan kesejahteraan rakyat.',
+                question: 'Prestasi dan kebijakan penting yang lahir pada masa pemerintahan Khalifah Umar bin Khattab meliputi .... (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Membentuk Baitul Mal untuk mengelola keuangan negara dan menyantuni fakir miskin',
+                    'Membentuk berbagai departemen (Diwan) seperti Diwanul Jundi (militer) dan Diwanul Kharaj (pajak)',
+                    'Membangun armada angkatan laut Islam pertama untuk menguasai Laut Tengah',
+                    'Menetapkan sistem peradilan yang independen dengan mengangkat para hakim (Qadhi)'
+                ],
+                answer: [0, 1, 3]
+            },
+            {
+                id: 25,
+                type: 'PGK',
+                cog: 'HOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Utsman bin Affan dikenal sebagai saudagar kaya yang sangat dermawan sejak masa awal Islam hingga beliau menjabat sebagai khalifah ketiga.',
+                question: 'Kontribusi nyata Utsman bin Affan bagi kemajuan peradaban Islam baik sebelum maupun saat menjadi khalifah adalah .... (Pilih lebih dari satu jawaban benar)',
+                options: [
+                    'Membeli Sumur Raumah dari pemiliknya dan mewakafkannya untuk kepentingan umat Islam',
+                    'Memperluas bangunan Masjid Nabawi di Madinah dan Masjidil Haram di Makkah',
+                    'Membentuk armada angkatan laut pertama yang diprakarsai oleh Muawiyah bin Abi Sufyan',
+                    'Memindahkan ibu kota pemerintahan Islam dari Madinah ke Kota Kufah'
+                ],
+                answer: [0, 1, 2]
+            },
+
+            // --- 10 SOAL MENJODOHKAN (NO 26 - 35) ---
+            {
+                id: 26,
+                type: 'MATCH',
+                cog: 'LOTS',
+                topic: 'Bab 1: Kehidupan Masyarakat Arab Sebelum Islam',
+                stimulus: 'Masyarakat Arab Jahiliyah menyembah berbagai berhala utama yang ditempatkan di berbagai lokasi di Jazirah Arab sebelum dihancurkan saat Fathu Makkah.',
+                question: 'Pasangkan nama berhala di sebelah kiri dengan lokasi penempatannya yang tepat di sebelah kanan!',
+                pairs: [
+                    { left: 'Berhala Hubal', right: 'Di dalam Ka’bah Makkah' },
+                    { left: 'Berhala Latta', right: 'Kota Thaif' },
+                    { left: 'Berhala Manat', right: 'Dekat Kota Yatsrib / Qudayd' }
+                ]
+            },
+            {
+                id: 27,
+                type: 'MATCH',
+                cog: 'MOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Pada masa dakwah di Makkah, sejumlah tokoh memiliki peran dan sikap yang berbeda terhadap seruan tauhid yang dibawa Nabi Muhammad SAW.',
+                question: 'Jodohkan tokoh berikut dengan perannya pada masa dakwah di Makkah!',
+                pairs: [
+                    { left: 'Waraqah bin Naufal', right: 'Meneguhkan bahwa yang datang kepada Nabi adalah Malaikat Jibril' },
+                    { left: 'Abu Lahab', right: 'Paman Nabi yang menentang keras dakwah di Bukit Shafa' },
+                    { left: 'Bilal bin Rabah', right: 'Budak yang mempertahankan iman meski disiksa di padang pasir' }
+                ]
+            },
+            {
+                id: 28,
+                type: 'MATCH',
+                cog: 'LOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Wahyu Allah diturunkan secara berangsur-angsur kepada Nabi Muhammad SAW sebagai pedoman tahapan dakwah di Makkah.',
+                question: 'Pasangkan ayat Al-Qur’an berikut dengan kandungan perintah dakwahnya!',
+                pairs: [
+                    { left: 'QS. Al-Alaq ayat 1–5', right: 'Wahyu pertama tentang perintah membaca dan menuntut ilmu' },
+                    { left: 'QS. Asy-Syu’ara ayat 214', right: 'Perintah memberi peringatan kepada kerabat terdekat' },
+                    { left: 'QS. Al-Hijr ayat 94', right: 'Perintah menyampaikan dakwah secara terang-terangan' }
+                ]
+            },
+            {
+                id: 29,
+                type: 'MATCH',
+                cog: 'MOTS',
+                topic: 'Bab 2: Peristiwa Hijrah Nabi Muhammad dan Hikmahnya',
+                stimulus: 'Peristiwa hijrah ke Madinah diawali dengan berbagai momentum bersejarah sebelum Rasulullah SAW tiba di pusat Kota Madinah.',
+                question: 'Jodohkan tempat bersejarah berikut dengan peristiwa yang terjadi di dalamnya!',
+                pairs: [
+                    { left: 'Bukit Aqabah', right: 'Tempat perjanjian setia penduduk Yatsrib dengan Rasulullah SAW' },
+                    { left: 'Gua Tsur', right: 'Tempat persembunyian Nabi dan Abu Bakar selama tiga hari' },
+                    { left: 'Desa Quba', right: 'Lokasi pembangunan masjid pertama dalam sejarah Islam' }
+                ]
+            },
+            {
+                id: 30,
+                type: 'MATCH',
+                cog: 'HOTS',
+                topic: 'Bab 2: Membangun Masyarakat Madinah yang Berperadaban',
+                stimulus: 'Untuk menciptakan solidaritas yang kokoh di Madinah, Rasulullah SAW mempersaudarakan kaum Muhajirin dengan kaum Anshar secara berpasangan.',
+                question: 'Pasangkan tokoh Muhajirin di sebelah kiri dengan saudara Anshar-nya di sebelah kanan!',
+                pairs: [
+                    { left: 'Abdurrahman bin Auf', right: 'Sa’ad bin Rabi’' },
+                    { left: 'Abu Bakar Ash-Shiddiq', right: 'Kharijah bin Zaid' },
+                    { left: 'Umar bin Khattab', right: 'Itban bin Malik' }
+                ]
+            },
+            {
+                id: 31,
+                type: 'MATCH',
+                cog: 'MOTS',
+                topic: 'Bab 2: Membangun Masyarakat Madinah yang Berperadaban',
+                stimulus: 'Masjid Nabawi yang dibangun Rasulullah SAW di Madinah tidak hanya berfungsi sebagai tempat shalat berjamaah, melainkan pusat peradaban umat.',
+                question: 'Jodohkan fungsi Masjid Nabawi berikut dengan wujud kegiatannya!',
+                pairs: [
+                    { left: 'Fungsi Edukasi', right: 'Tempat pembinaan ilmu bagi para sahabat ahli Suffah' },
+                    { left: 'Fungsi Sosial', right: 'Tempat menampung musafir dan menyalurkan bantuan fakir miskin' },
+                    { left: 'Fungsi Pemerintahan', right: 'Tempat bermusyawarah dan menerima utusan kabilah' }
+                ]
+            },
+            {
+                id: 32,
+                type: 'MATCH',
+                cog: 'LOTS',
+                topic: 'Bab 3: Profil dan Peran Khulafaurrasyidin',
+                stimulus: 'Masing-masing Khulafaurrasyidin memiliki gelar kehormatan yang mencerminkan karakter dan keteladanan akhlak mereka.',
+                question: 'Pasangkan nama khalifah berikut dengan gelar kehormatannya!',
+                pairs: [
+                    { left: 'Umar bin Khattab', right: 'Al-Faruq (Pembeda antara yang hak dan batil)' },
+                    { left: 'Utsman bin Affan', right: 'Dzun Nurain (Pemilik dua cahaya)' },
+                    { left: 'Ali bin Abi Thalib', right: 'Karamallahu Wajhah / Babul Ilmi' }
+                ]
+            },
+            {
+                id: 33,
+                type: 'MATCH',
+                cog: 'MOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Pada awal masa pemerintahan Khalifah Abu Bakar Ash-Shiddiq, muncul berbagai gangguan stabilitas negara yang berhasil ditumpas secara tegas.',
+                question: 'Jodohkan tantangan pada masa Abu Bakar berikut dengan langkah penyelesaiannya!',
+                pairs: [
+                    { left: 'Munculnya Nabi Palsu', right: 'Mengirim pasukan di bawah pimpinan Khalid bin Walid' },
+                    { left: 'Kaum Pembangkang Zakat', right: 'Menegakkan kewajiban zakat sebagai rukun Islam dan hak fakir miskin' },
+                    { left: 'Gugurnya Para Huffadz', right: 'Membentuk tim kodifikasi Al-Qur’an dipimpin Zaid bin Tsabit' }
+                ]
+            },
+            {
+                id: 34,
+                type: 'MATCH',
+                cog: 'HOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Pada masa Khalifah Umar bin Khattab, banyak wilayah strategis berhasil dibebaskan dengan menunjuk panglima perang yang cakap.',
+                question: 'Pasangkan wilayah pembebasan Islam berikut dengan panglima yang memimpinnya!',
+                pairs: [
+                    { left: 'Wilayah Mesir', right: 'Amr bin Ash' },
+                    { left: 'Wilayah Syam / Yarmuk', right: 'Abu Ubaidah bin Jarrah & Khalid bin Walid' },
+                    { left: 'Wilayah Persia / Qadisiyah', right: 'Sa’ad bin Abi Waqqash' }
+                ]
+            },
+            {
+                id: 35,
+                type: 'MATCH',
+                cog: 'MOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Setiap Khulafaurrasyidin mewariskan kebijakan monumental yang menjadi fondasi peradaban Islam pada generasi berikutnya.',
+                question: 'Jodohkan khalifah berikut dengan warisan kebijakan monumentalnya!',
+                pairs: [
+                    { left: 'Abu Bakar Ash-Shiddiq', right: 'Pengumpulan lembaran Al-Qur’an menjadi satu mushaf' },
+                    { left: 'Utsman bin Affan', right: 'Penyeragaman bacaan Al-Qur’an (Mushaf Utsmani)' },
+                    { left: 'Ali bin Abi Thalib', right: 'Pembenahan Baitul Mal dan peletakan dasar ilmu Nahwu' }
+                ]
+            },
+
+            // --- 5 SOAL URAIAN (NO 36 - 40) ---
+            {
+                id: 36,
+                type: 'ESSAY',
+                cog: 'HOTS',
+                topic: 'Bab 1: Kehidupan Masyarakat Arab Sebelum Islam',
+                stimulus: 'Di lingkungan sekolah dan masyarakat modern saat ini, terkadang masih ditemukan sikap merendahkan teman karena perbedaan suku, asal daerah, atau status ekonomi, serta kebiasaan menyebarkan berita bohong (hoaks) yang memicu perpecahan.',
+                question: 'Analisislah bagaimana keteladanan akhlak dan misi dakwah Nabi Muhammad SAW sebagai pembawa rahmat bagi semesta alam di Makkah dapat menjadi solusi untuk mengatasi sikap diskriminasi dan perpecahan tersebut!',
+                keywords: ['persaudaraan', 'kesetaraan', 'derajat', 'akhlak', 'jujur', 'amanah', 'rahmat', 'menghargai', 'toleransi', 'suku'],
+                sampleAnswer: 'Misi dakwah Nabi Muhammad SAW mengajarkan bahwa semua manusia memiliki derajat yang sama di hadapan Allah SWT tanpa membedakan suku maupun status sosial, serta meneladankan sifat jujur (shiddiq) dan kasih sayang untuk menciptakan kerukunan.'
+            },
+            {
+                id: 37,
+                type: 'ESSAY',
+                cog: 'MOTS',
+                topic: 'Bab 1: Strategi Dakwah Nabi Muhammad di Makkah',
+                stimulus: 'Ketika berdakwah di Kota Thaif pada tahun ke-10 kenabian, Nabi Muhammad SAW mendapatkan penolakan keras hingga dilempari batu sampai berdarah. Malaikat Jibril menawarkan untuk menimpakan gunung kepada penduduk Thaif, namun Nabi justru menolak dan mendoakan agar kelak keturunan mereka menyembah Allah SWT.',
+                question: 'Jelaskan dua hikmah penting yang dapat kamu terapkan dalam kehidupan sehari-hari dari sikap kesabaran dan pemaaf Rasulullah SAW pada peristiwa dakwah di Thaif tersebut!',
+                keywords: ['sabar', 'memaafkan', 'pemaaf', 'tidak membalas', 'dendam', 'mendoakan', 'kebaikan', 'pantang menyerah', 'dakwah'],
+                sampleAnswer: '1) Bersikap sabar dan tidak membalas keburukan dengan keburukan atau dendam. 2) Memaafkan kesalahan orang lain serta senantiasa mendoakan kebaikan bagi sesama.'
+            },
+            {
+                id: 38,
+                type: 'ESSAY',
+                cog: 'HOTS',
+                topic: 'Bab 2: Membangun Masyarakat Madinah yang Berperadaban',
+                stimulus: 'Indonesia merupakan negara yang memiliki keberagaman suku, agama, dan budaya. Kondisi ini memiliki kemiripan dengan masyarakat Madinah pada masa Rasulullah SAW yang terdiri dari kaum Muhajirin, Anshar, serta kabilah-kabilah Yahudi.',
+                question: 'Bagaimana prinsip-prinsip yang terkandung dalam Piagam Madinah dapat diterapkan untuk menjaga persatuan dan kerukunan antarumat beragama di Indonesia saat ini? Jelaskan!',
+                keywords: ['toleransi', 'kebebasan', 'beragama', 'persatuan', 'musyawarah', 'keadilan', 'hak', 'kewajiban', 'menjaga', 'perdamaian'],
+                sampleAnswer: 'Prinsip Piagam Madinah mengajarkan penghormatan terhadap kebebasan beragama, saling melindungi keamanan bersama, menjunjung tinggi keadilan, serta menyelesaikan masalah secara musyawarah demi persatuan bangsa.'
+            },
+            {
+                id: 39,
+                type: 'ESSAY',
+                cog: 'MOTS',
+                topic: 'Bab 2: Peristiwa Hijrah Nabi Muhammad dan Hikmahnya',
+                stimulus: 'Persaudaraan antara kaum Muhajirin yang meninggalkan harta bendanya di Makkah dengan kaum Anshar di Madinah merupakan contoh solidaritas sosial tertinggi dalam sejarah Islam. Kaum Anshar dengan tulus berbagi tempat tinggal, lahan usaha, dan kebutuhan hidup.',
+                question: 'Sebutkan dan jelaskan tiga bentuk nyata sikap tolong-menolong yang dapat kamu lakukan di lingkungan madrasah untuk meneladani persaudaraan kaum Muhajirin dan Anshar!',
+                keywords: ['membantu', 'teman', 'berbagi', 'peduli', 'infaq', 'sedekah', 'menjenguk', 'belajar', 'bekerja sama', 'solidaritas'],
+                sampleAnswer: '1) Membantu teman yang kesulitan memahami pelajaran dengan belajar bersama. 2) Berbagi bekal atau menyisihkan uang saku untuk membantu teman yang terkena musibah. 3) Menerima siswa baru dengan ramah agar merasa nyaman di madrasah.'
+            },
+            {
+                id: 40,
+                type: 'ESSAY',
+                cog: 'HOTS',
+                topic: 'Bab 3: Prestasi dan Kontribusi Khulafaurrasyidin',
+                stimulus: 'Keempat Khulafaurrasyidin (Abu Bakar Ash-Shiddiq, Umar bin Khattab, Utsman bin Affan, dan Ali bin Abi Thalib) memiliki gaya kepemimpinan dan prestasi besar, seperti kejujuran, ketegasan menegakkan keadilan, kedermawanan, dan kecintaan terhadap ilmu pengetahuan.',
+                question: 'Pilihlah salah satu dari keempat Khulafaurrasyidin tersebut, lalu jelaskan prestasi utamanya serta bagaimana kamu meneladani sifat kepemimpinannya sebagai seorang pelajar di MTs Mu’allimin NU!',
+                keywords: ['abu bakar', 'umar', 'utsman', 'ali', 'adil', 'jujur', 'dermawan', 'ilmu', 'disiplin', 'tanggung jawab', 'alquran'],
+                sampleAnswer: 'Contoh: Khalifah Umar bin Khattab berprestasi menata administrasi negara, Baitul Mal, dan kalender Hijriah. Sebagai pelajar, saya meneladani sikap disiplin, tegas dalam kebenaran, dan bertanggung jawab dalam menjalankan tugas sekolah.'
+            }
+        ];
+
+        // Deep copy of questions so admin can edit freely
+        let questions = JSON.parse(JSON.stringify(defaultQuestions));
+
+        // ==========================================
+        // 3. HELPER: CUSTOM MODAL (NO ALERT/CONFIRM)
+        // ==========================================
+        function showModal(title, message, type = 'info', onConfirm = null) {
+            const modal = document.getElementById('custom-modal');
+            const titleEl = document.getElementById('modal-title');
+            const msgEl = document.getElementById('modal-message');
+            const iconEl = document.getElementById('modal-icon');
+            const cancelBtn = document.getElementById('modal-cancel');
+            const confirmBtn = document.getElementById('modal-confirm');
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+
+            // Styling icon based on type
+            iconEl.className = 'w-10 h-10 rounded-full flex items-center justify-center shrink-0 ';
+            if (type === 'warning' || type === 'confirm') {
+                iconEl.className += 'bg-amber-100 text-amber-600';
+                iconEl.innerHTML = '<i data-lucide="alert-triangle" class="w-5 h-5"></i>';
+            } else if (type === 'error') {
+                iconEl.className += 'bg-rose-100 text-rose-600';
+                iconEl.innerHTML = '<i data-lucide="x-circle" class="w-5 h-5"></i>';
+            } else {
+                iconEl.className += 'bg-emerald-100 text-emerald-600';
+                iconEl.innerHTML = '<i data-lucide="info" class="w-5 h-5"></i>';
+            }
+
+            if (onConfirm) {
+                cancelBtn.classList.remove('hidden');
+                confirmBtn.textContent = 'Ya, Lanjutkan';
+                confirmBtn.onclick = () => {
+                    closeModal();
+                    onConfirm();
+                };
+            } else {
+                cancelBtn.classList.add('hidden');
+                confirmBtn.textContent = 'Mengerti';
+                confirmBtn.onclick = closeModal;
+            }
+
+            cancelBtn.onclick = closeModal;
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            document.getElementById('custom-modal').classList.add('hidden');
+        }
+
+        // ==========================================
+        // 4. AUTHENTICATION & NAVIGATION
+        // ==========================================
+        function switchLoginTab(tab) {
+            const tabStudent = document.getElementById('tab-student');
+            const tabAdmin = document.getElementById('tab-admin');
+            const formStudent = document.getElementById('form-student-login');
+            const formAdmin = document.getElementById('form-admin-login');
+
+            if (tab === 'student') {
+                tabStudent.className = 'flex-1 py-2.5 text-sm font-bold rounded-xl bg-white text-emerald-800 shadow-sm transition flex items-center justify-center gap-2';
+                tabAdmin.className = 'flex-1 py-2.5 text-sm font-semibold rounded-xl text-slate-500 hover:text-slate-700 transition flex items-center justify-center gap-2';
+                formStudent.classList.remove('hidden');
+                formAdmin.classList.add('hidden');
+            } else {
+                tabAdmin.className = 'flex-1 py-2.5 text-sm font-bold rounded-xl bg-white text-slate-900 shadow-sm transition flex items-center justify-center gap-2';
+                tabStudent.className = 'flex-1 py-2.5 text-sm font-semibold rounded-xl text-slate-500 hover:text-slate-700 transition flex items-center justify-center gap-2';
+                formAdmin.classList.remove('hidden');
+                formStudent.classList.add('hidden');
+            }
+        }
+
+        function handleStudentLogin(e) {
+            e.preventDefault();
+            const name = document.getElementById('student-name').value.trim();
+            const className = document.getElementById('student-class').value;
+            const absen = document.getElementById('student-absen').value.trim();
+
+            if (!name || !absen) {
+                showModal('Data Belum Lengkap', 'Silakan isi nama lengkap dan nomor presensi Anda.', 'warning');
+                return;
+            }
+
+            const studentKey = `${name.toLowerCase()}_${className}_${absen}`;
+            const currentAttempts = studentAttempts[studentKey] || 0;
+
+            if (currentAttempts >= 2) {
+                showModal(
+                    'Batas Kesempatan Habis',
+                    `Mohon maaf ${name} (${className}, Presensi ${absen}), Anda telah menggunakan seluruh kesempatan mengerjakan asesmen ini (Maksimal 2 kali).`,
+                    'error'
+                );
+                return;
+            }
+
+            currentUser = {
+                role: 'student',
+                name: name,
+                className: className,
+                absen: absen,
+                studentKey: studentKey,
+                attempt: currentAttempts + 1
+            };
+
+            startExamSession();
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('admin-username').value.trim();
+            const pass = document.getElementById('admin-password').value;
+
+            if (user === adminCreds.username && pass === adminCreds.password) {
+                currentUser = {
+                    role: 'admin',
+                    name: 'Amirotul Kayyisah, S.Pd. (Admin)',
+                    className: 'Guru SKI'
+                };
+                openAdminDashboard();
+            } else {
+                showModal('Login Gagal', 'Username atau password Admin/Guru tidak sesuai. Silakan periksa kembali.', 'error');
+            }
+        }
+
+        function logout() {
+            if (timerInterval) clearInterval(timerInterval);
+            currentUser = null;
+            document.getElementById('header-user-info').classList.add('hidden');
+            showView('view-login');
+        }
+
+        function showView(viewId) {
+            ['view-login', 'view-exam', 'view-result', 'view-admin'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // 5. EXAM ENGINE (60 MENIT & 40 SOAL)
+        // ==========================================
+        function startExamSession() {
+            // Reset runtime state
+            currentQuestionIdx = 0;
+            userAnswers = {};
+            flaggedQuestions = {};
+            timeRemaining = 60 * 60; // 60 menit
+
+            // Update Header User Info
+            document.getElementById('header-user-info').classList.remove('hidden');
+            document.getElementById('nav-user-name').textContent = currentUser.name;
+            document.getElementById('nav-user-role').textContent = currentUser.role === 'admin'
+                ? 'Mode Uji Coba Guru'
+                : `${currentUser.className} • Presensi ${currentUser.absen} (Percobaan ${currentUser.attempt}/2)`;
+
+            // Show/Hide Admin simulation banner
+            if (currentUser.role === 'admin') {
+                document.getElementById('admin-sim-banner').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-sim-banner').classList.add('hidden');
+            }
+
+            showView('view-exam');
+            renderQuestionNavGrid();
+            renderQuestion(0);
+            startTimer();
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    showModal('Waktu Habis!', 'Waktu pengerjaan 60 menit telah berakhir. Jawaban Anda akan dikumpulkan secara otomatis.', 'warning', () => {
+                        calculateAndShowResult();
+                    });
+                    // Auto submit after 2.5 seconds even if modal not clicked
+                    setTimeout(() => {
+                        closeModal();
+                        calculateAndShowResult();
+                    }, 2500);
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeRemaining / 60);
+            const secs = timeRemaining % 60;
+            const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            const timerEl = document.getElementById('exam-timer');
+            timerEl.textContent = formatted;
+
+            if (timeRemaining <= 300) { // Last 5 mins
+                timerEl.classList.add('text-rose-400');
+                timerEl.classList.remove('text-white');
+            } else {
+                timerEl.classList.remove('text-rose-400');
+                timerEl.classList.add('text-white');
+            }
+        }
+
+        function renderQuestion(index) {
+            currentQuestionIdx = index;
+            const q = questions[index];
+
+            // Update Badges
+            document.getElementById('exam-q-badge').textContent = `${index + 1}/${questions.length}`;
+            document.getElementById('exam-q-cog').textContent = q.cog;
+            document.getElementById('exam-q-topic').textContent = q.topic;
+
+            const typeMap = {
+                'PG': 'Pilihan Ganda',
+                'PGK': 'Pilihan Ganda Kompleks',
+                'MATCH': 'Menjodohkan',
+                'ESSAY': 'Uraian'
+            };
+            document.getElementById('exam-q-type').textContent = typeMap[q.type];
+
+            // Stimulus & Question
+            document.getElementById('stimulus-content').innerHTML = `<p>${q.stimulus}</p>`;
+            document.getElementById('question-text').textContent = `${index + 1}. ${q.question}`;
+
+            const answerContainer = document.getElementById('answer-container');
+            const instructionEl = document.getElementById('question-instruction');
+            answerContainer.innerHTML = '';
+
+            // Render based on type
+            if (q.type === 'PG') {
+                instructionEl.textContent = 'Pilihlah satu jawaban yang paling tepat (A, B, C, atau D).';
+                const letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach((opt, optIdx) => {
+                    const isSelected = userAnswers[q.id] === optIdx;
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.onclick = () => selectPG(q.id, optIdx);
+                    btn.className = `w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 ${
+                        isSelected
+                            ? 'border-emerald-600 bg-emerald-50/80 text-emerald-950 shadow-sm'
+                            : 'border-slate-200 hover:border-emerald-300 hover:bg-slate-50 text-slate-700'
+                    }`;
+                    btn.innerHTML = `
+                        <span class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 ${
+                            isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
+                        }">${letters[optIdx]}</span>
+                        <span class="text-sm sm:text-[15px] leading-relaxed">${opt}</span>
+                    `;
+                    answerContainer.appendChild(btn);
+                });
+
+            } else if (q.type === 'PGK') {
+                instructionEl.textContent = 'Pilihlah lebih dari satu jawaban yang benar (dapat mencentang 2 atau 3 pernyataan).';
+                const selectedArr = userAnswers[q.id] || [];
+                q.options.forEach((opt, optIdx) => {
+                    const isChecked = selectedArr.includes(optIdx);
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.onclick = () => togglePGK(q.id, optIdx);
+                    btn.className = `w-full text-left p-4 rounded-2xl border-2 transition flex items-start gap-3.5 ${
+                        isChecked
+                            ? 'border-emerald-600 bg-emerald-50/80 text-emerald-950 shadow-sm'
+                            : 'border-slate-200 hover:border-emerald-300 hover:bg-slate-50 text-slate-700'
+                    }`;
+                    btn.innerHTML = `
+                        <span class="w-6 h-6 rounded-md border-2 flex items-center justify-center shrink-0 mt-0.5 ${
+                            isChecked ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 bg-white'
+                        }">
+                            ${isChecked ? '<i data-lucide="check" class="w-4 h-4"></i>' : ''}
+                        </span>
+                        <span class="text-sm sm:text-[15px] leading-relaxed">${opt}</span>
+                    `;
+                    answerContainer.appendChild(btn);
+                });
+
+            } else if (q.type === 'MATCH') {
+                instructionEl.textContent = 'Pasangkan setiap pernyataan di kolom kiri dengan pasangan yang tepat di kolom kanan.';
+                const currentMatches = userAnswers[q.id] || {};
+                // Prepare right options shuffled deterministically by question id
+                const rightOptions = q.pairs.map(p => p.right);
+                const shuffledRights = [...rightOptions].sort((a, b) => a.localeCompare(b));
+
+                q.pairs.forEach((pair, pIdx) => {
+                    const row = document.createElement('div');
+                    row.className = 'p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-1 md:grid-cols-12 gap-3 items-center';
+                    
+                    let optionsHtml = `<option value="">-- Pilih Pasangan Jawaban --</option>`;
+                    shuffledRights.forEach(rText => {
+                        const selected = currentMatches[pIdx] === rText ? 'selected' : '';
+                        optionsHtml += `<option value="${rText.replace(/"/g, '&quot;')}" ${selected}>${rText}</option>`;
+                    });
+
+                    row.innerHTML = `
+                        <div class="md:col-span-5 font-semibold text-sm text-slate-800 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold flex items-center justify-center shrink-0">${pIdx + 1}</span>
+                            <span>${pair.left}</span>
+                        </div>
+                        <div class="hidden md:flex md:col-span-1 justify-center text-slate-400">
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </div>
+                        <div class="md:col-span-6">
+                            <select onchange="selectMatch(${q.id}, ${pIdx}, this.value)" class="w-full p-2.5 rounded-xl border border-slate-300 bg-white text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                ${optionsHtml}
+                            </select>
+                        </div>
+                    `;
+                    answerContainer.appendChild(row);
+                });
+
+            } else if (q.type === 'ESSAY') {
+                instructionEl.textContent = 'Tuliskan jawaban uraian Anda secara jelas, lengkap, dan argumentatif pada kolom di bawah ini.';
+                const currentText = userAnswers[q.id] || '';
+                const textarea = document.createElement('textarea');
+                textarea.rows = 5;
+                textarea.placeholder = 'Ketik jawaban uraian Anda di sini...';
+                textarea.value = currentText;
+                textarea.oninput = (e) => updateEssay(q.id, e.target.value);
+                textarea.className = 'w-full p-4 rounded-2xl border-2 border-slate-200 focus:border-emerald-600 focus:outline-none text-sm sm:text-base leading-relaxed text-slate-800 bg-slate-50 focus:bg-white transition';
+                answerContainer.appendChild(textarea);
+            }
+
+            // Update Navigation Buttons Visibility
+            document.getElementById('btn-prev').disabled = index === 0;
+            if (index === questions.length - 1) {
+                document.getElementById('btn-next').classList.add('hidden');
+                document.getElementById('btn-submit-exam').classList.remove('hidden');
+            } else {
+                document.getElementById('btn-next').classList.remove('hidden');
+                document.getElementById('btn-submit-exam').classList.add('hidden');
+            }
+
+            // Flag button state
+            const flagBtn = document.getElementById('btn-flag');
+            if (flaggedQuestions[q.id]) {
+                flagBtn.className = 'px-4 py-2.5 rounded-xl bg-amber-400 text-slate-900 font-bold text-sm flex items-center gap-2 transition shadow-sm';
+            } else {
+                flagBtn.className = 'px-4 py-2.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 font-semibold text-sm flex items-center gap-2 transition';
+            }
+
+            updateNavGridHighlights();
+            lucide.createIcons();
+        }
+
+        // Answer Handlers
+        function selectPG(qId, optIdx) {
+            userAnswers[qId] = optIdx;
+            renderQuestion(currentQuestionIdx);
+        }
+
+        function togglePGK(qId, optIdx) {
+            let arr = userAnswers[qId] ? [...userAnswers[qId]] : [];
+            if (arr.includes(optIdx)) {
+                arr = arr.filter(i => i !== optIdx);
+            } else {
+                arr.push(optIdx);
+            }
+            if (arr.length > 0) {
+                userAnswers[qId] = arr;
+            } else {
+                delete userAnswers[qId];
+            }
+            renderQuestion(currentQuestionIdx);
+        }
+
+        function selectMatch(qId, pairIdx, val) {
+            if (!userAnswers[qId]) userAnswers[qId] = {};
+            if (val) {
+                userAnswers[qId][pairIdx] = val;
+            } else {
+                delete userAnswers[qId][pairIdx];
+            }
+            if (Object.keys(userAnswers[qId]).length === 0) {
+                delete userAnswers[qId];
+            }
+            updateNavGridHighlights();
+        }
+
+        function updateEssay(qId, val) {
+            if (val.trim().length > 0) {
+                userAnswers[qId] = val;
+            } else {
+                delete userAnswers[qId];
+            }
+            updateNavGridHighlights();
+        }
+
+        function toggleFlagQuestion() {
+            const qId = questions[currentQuestionIdx].id;
+            flaggedQuestions[qId] = !flaggedQuestions[qId];
+            renderQuestion(currentQuestionIdx);
+        }
+
+        function navigateQuestion(step) {
+            const nextIdx = currentQuestionIdx + step;
+            if (nextIdx >= 0 && nextIdx < questions.length) {
+                renderQuestion(nextIdx);
+            }
+        }
+
+        function isQuestionAnswered(q) {
+            const ans = userAnswers[q.id];
+            if (ans === undefined || ans === null) return false;
+            if (q.type === 'PG') return true;
+            if (q.type === 'PGK') return Array.isArray(ans) && ans.length > 0;
+            if (q.type === 'MATCH') return Object.keys(ans).length === q.pairs.length;
+            if (q.type === 'ESSAY') return typeof ans === 'string' && ans.trim().length > 0;
+            return false;
+        }
+
+        function renderQuestionNavGrid() {
+            const grid = document.getElementById('question-nav-grid');
+            grid.innerHTML = '';
+            questions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.id = `nav-btn-${idx}`;
+                btn.textContent = idx + 1;
+                btn.onclick = () => renderQuestion(idx);
+                btn.className = 'h-9 rounded-xl font-bold text-xs transition flex items-center justify-center border';
+                grid.appendChild(btn);
+            });
+            updateNavGridHighlights();
+        }
+
+        function updateNavGridHighlights() {
+            let answeredTotal = 0;
+            questions.forEach((q, idx) => {
+                const btn = document.getElementById(`nav-btn-${idx}`);
+                if (!btn) return;
+                const answered = isQuestionAnswered(q);
+                if (answered) answeredTotal++;
+
+                const isCurrent = idx === currentQuestionIdx;
+                const isFlagged = flaggedQuestions[q.id];
+
+                let baseClass = 'h-9 rounded-xl font-bold text-xs transition flex items-center justify-center ';
+                if (isCurrent) {
+                    baseClass += 'ring-2 ring-slate-900 ring-offset-1 ';
+                }
+
+                if (isFlagged) {
+                    baseClass += 'bg-amber-400 text-slate-900 border-amber-500';
+                } else if (answered) {
+                    baseClass += 'bg-emerald-600 text-white border-emerald-700';
+                } else {
+                    baseClass += 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200';
+                }
+                btn.className = baseClass;
+            });
+            document.getElementById('answered-count').textContent = answeredTotal;
+        }
+
+        // ==========================================
+        // 6. SCORING & SUBMISSION (TOTAL = 100, KKM = 80)
+        // Bobot:
+        // - 15 PG @ 2 poin = 30 poin
+        // - 10 PGK @ 2.5 poin = 25 poin
+        // - 10 Menjodohkan @ 2.5 poin = 25 poin
+        // - 5 Uraian @ 4 poin = 20 poin
+        // Total = 100 poin
+        // ==========================================
+        function confirmSubmitExam() {
+            let answeredCount = 0;
+            questions.forEach(q => {
+                if (isQuestionAnswered(q)) answeredCount++;
+            });
+
+            const unanswered = questions.length - answeredCount;
+            const msg = unanswered > 0
+                ? `Masih ada ${unanswered} soal yang belum dijawab lengkap. Apakah Anda yakin ingin mengakhiri dan mengumpulkan asesmen sekarang?`
+                : 'Seluruh 40 soal telah terjawab. Apakah Anda yakin ingin mengumpulkan jawaban sekarang?';
+
+            showModal('Konfirmasi Pengumpulan', msg, 'confirm', () => {
+                calculateAndShowResult();
+            });
+        }
+
+        function calculateAndShowResult() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            let scorePG = 0;    // Max 30 (15 * 2)
+            let scorePGK = 0;   // Max 25 (10 * 2.5)
+            let scoreMatch = 0; // Max 25 (10 * 2.5)
+            let scoreEssay = 0; // Max 20 (5 * 4)
+
+            questions.forEach(q => {
+                const ans = userAnswers[q.id];
+                if (!ans && ans !== 0) return;
+
+                if (q.type === 'PG') {
+                    if (ans === q.answer) {
+                        scorePG += 2;
+                    }
+                } else if (q.type === 'PGK') {
+                    if (Array.isArray(ans) && ans.length > 0) {
+                        const correctSet = new Set(q.answer);
+                        let correctHits = 0;
+                        let wrongHits = 0;
+                        ans.forEach(a => {
+                            if (correctSet.has(a)) correctHits++;
+                            else wrongHits++;
+                        });
+                        // Proporsional dengan penalti jawaban salah
+                        const rawRatio = Math.max(0, (correctHits - wrongHits * 0.5) / q.answer.length);
+                        scorePGK += rawRatio * 2.5;
+                    }
+                } else if (q.type === 'MATCH') {
+                    let matchedCount = 0;
+                    q.pairs.forEach((p, idx) => {
+                        if (ans[idx] === p.right) matchedCount++;
+                    });
+                    scoreMatch += (matchedCount / q.pairs.length) * 2.5;
+                } else if (q.type === 'ESSAY') {
+                    if (typeof ans === 'string' && ans.trim().length > 0) {
+                        const lowerAns = ans.toLowerCase();
+                        let keywordMatches = 0;
+                        q.keywords.forEach(kw => {
+                            if (lowerAns.includes(kw.toLowerCase())) keywordMatches++;
+                        });
+                        // Penilaian berbasis kata kunci & kelengkapan kalimat
+                        if (keywordMatches >= 3 || (keywordMatches >= 2 && ans.trim().length >= 40)) {
+                            scoreEssay += 4;
+                        } else if (keywordMatches >= 1) {
+                            scoreEssay += 2.5;
+                        } else if (ans.trim().length >= 25) {
+                            scoreEssay += 1.5;
+                        }
+                    }
+                }
+            });
+
+            const totalScore = Math.round(scorePG + scorePGK + scoreMatch + scoreEssay);
+            const isPassed = totalScore >= 80;
+            const nowStr = new Date().toLocaleString('id-ID', {
+                dateStyle: 'long',
+                timeStyle: 'short'
+            });
+
+            // Record student attempt if student role
+            if (currentUser.role === 'student') {
+                studentAttempts[currentUser.studentKey] = currentUser.attempt;
+                examRecords.push({
+                    name: currentUser.name,
+                    className: currentUser.className,
+                    absen: currentUser.absen,
+                    attempt: currentUser.attempt,
+                    score: totalScore,
+                    passed: isPassed,
+                    date: nowStr
+                });
+            }
+
+            // Populate Result View
+            const resultLogoBox = document.getElementById('result-logo-box');
+            resultLogoBox.innerHTML = document.getElementById('header-logo-container').innerHTML;
+
+            document.getElementById('res-name').textContent = currentUser.name;
+            document.getElementById('res-class-absen').textContent = currentUser.role === 'admin'
+                ? 'Mode Uji Coba Guru'
+                : `${currentUser.className} / No. Presensi ${currentUser.absen}`;
+            document.getElementById('res-attempt').textContent = currentUser.role === 'admin'
+                ? 'Simulasi Guru (Tidak Terbatas)'
+                : `Ke-${currentUser.attempt} dari 2 Kesempatan`;
+            document.getElementById('res-date').textContent = nowStr;
+
+            const scoreEl = document.getElementById('res-score');
+            const badgeEl = document.getElementById('res-status-badge');
+            const feedbackEl = document.getElementById('res-feedback-box');
+
+            scoreEl.textContent = totalScore;
+
+            if (isPassed) {
+                scoreEl.className = 'text-5xl font-extrabold text-emerald-700 my-1';
+                badgeEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800';
+                badgeEl.textContent = 'TUNTAS / MELAMPAUI KKM (80)';
+                feedbackEl.className = 'p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm leading-relaxed';
+                feedbackEl.innerHTML = `<strong>Barakallah fiikum!</strong> Selamat <strong>${currentUser.name}</strong>, Anda telah berhasil melampaui Kriteria Ketuntasan Minimal (KKM = 80) pada mata pelajaran Sejarah Kebudayaan Islam. Pertahankan semangat belajar dan keteladanan akhlak Rasulullah SAW serta Khulafaurrasyidin!`;
+            } else {
+                scoreEl.className = 'text-5xl font-extrabold text-rose-600 my-1';
+                badgeEl.className = 'px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800';
+                badgeEl.textContent = 'BELUM TUNTAS (KKM: 80)';
+                feedbackEl.className = 'p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 text-xs sm:text-sm leading-relaxed';
+                feedbackEl.innerHTML = `<strong>Tetap Semangat!</strong> Nilai Anda belum mencapai KKM (80). Pelajari kembali materi Bab 1 (Dakwah Makkah), Bab 2 (Hijrah & Masyarakat Madinah), serta Bab 3 (Khulafaurrasyidin). ${
+                    currentUser.role === 'student' && currentUser.attempt < 2
+                        ? 'Anda masih memiliki <strong>1 kali kesempatan</strong> untuk mengerjakan ulang.'
+                        : ''
+                }`;
+            }
+
+            document.getElementById('res-detail-pg').textContent = `${scorePG.toFixed(1)} / 30`;
+            document.getElementById('res-detail-pgk').textContent = `${scorePGK.toFixed(1)} / 25`;
+            document.getElementById('res-detail-match').textContent = `${scoreMatch.toFixed(1)} / 25`;
+            document.getElementById('res-detail-essay').textContent = `${scoreEssay.toFixed(1)} / 20`;
+
+            // Control Action Buttons
+            const retryBtn = document.getElementById('btn-retry-exam');
+            const backAdminBtn = document.getElementById('btn-back-admin-res');
+
+            if (currentUser.role === 'admin') {
+                retryBtn.classList.add('hidden');
+                backAdminBtn.classList.remove('hidden');
+            } else {
+                backAdminBtn.classList.add('hidden');
+                if (currentUser.attempt < 2) {
+                    retryBtn.classList.remove('hidden');
+                } else {
+                    retryBtn.classList.add('hidden');
+                }
+            }
+
+            showView('view-result');
+        }
+
+        function retryExam() {
+            if (currentUser && currentUser.role === 'student' && currentUser.attempt < 2) {
+                currentUser.attempt += 1;
+                startExamSession();
+            }
+        }
+
+        function downloadResultHTML() {
+            const content = document.getElementById('printable-result').outerHTML;
+            const htmlDoc = `<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Hasil ASAS SKI - ${currentUser.name}</title>
+<script src="https://cdn.tailwindcss.com"><\/script>
+</head>
+<body class="bg-slate-100 p-8 font-sans">
+<div class="max-w-3xl mx-auto">
+${content}
+</div>
+</body>
+</html>`;
+            const blob = new Blob([htmlDoc], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Hasil_ASAS_SKI_${currentUser.name.replace(/\s+/g, '_')}.html`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // ==========================================
+        // 7. ADMIN / GURU PANEL FUNCTIONS
+        // ==========================================
+        function openAdminDashboard() {
+            document.getElementById('header-user-info').classList.remove('hidden');
+            document.getElementById('nav-user-name').textContent = 'Amirotul Kayyisah, S.Pd.';
+            document.getElementById('nav-user-role').textContent = 'Administrator & Guru SKI';
+
+            document.getElementById('new-admin-user').value = adminCreds.username;
+            updateSettingsLogoPreview();
+            switchAdminTab('questions');
+            showView('view-admin');
+        }
+
+        function returnToAdminDashboard() {
+            if (timerInterval) clearInterval(timerInterval);
+            openAdminDashboard();
+        }
+
+        function startAdminSimulation() {
+            currentUser = {
+                role: 'admin',
+                name: 'Amirotul Kayyisah, S.Pd. (Uji Coba)',
+                className: 'Guru SKI'
+            };
+            startExamSession();
+        }
+
+        function switchAdminTab(tabName) {
+            ['questions', 'results', 'settings'].forEach(t => {
+                const btn = document.getElementById(`admtab-${t}`);
+                const panel = document.getElementById(`admin-panel-${t}`);
+                if (t === tabName) {
+                    btn.className = 'px-4 py-2.5 rounded-xl bg-emerald-700 text-white font-bold text-xs sm:text-sm flex items-center gap-2 shrink-0 transition';
+                    panel.classList.remove('hidden');
+                } else {
+                    btn.className = 'px-4 py-2.5 rounded-xl bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 font-semibold text-xs sm:text-sm flex items-center gap-2 shrink-0 transition';
+                    panel.classList.add('hidden');
+                }
+            });
+
+            if (tabName === 'questions') renderAdminQuestionsList();
+            if (tabName === 'results') renderAdminResultsTable();
+            if (tabName === 'settings') updateSettingsLogoPreview();
+        }
+
+        function renderAdminQuestionsList() {
+            const filter = document.getElementById('admin-filter-type').value;
+            const container = document.getElementById('admin-questions-list');
+            container.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                if (filter !== 'ALL' && q.type !== filter) return;
+
+                const card = document.createElement('div');
+                card.className = 'p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:bg-white transition flex flex-col sm:flex-row sm:items-center justify-between gap-3';
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold text-xs">No. ${idx + 1}</span>
+                            <span class="px-2 py-0.5 rounded-md bg-slate-200 text-slate-700 font-semibold text-[11px]">${q.type}</span>
+                            <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 font-semibold text-[11px]">${q.cog}</span>
+                            <span class="text-[11px] text-slate-500">${q.topic}</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-semibold text-slate-800 line-clamp-2">${q.question}</p>
+                    </div>
+                    <button onclick="openEditQuestionModal(${idx})" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:border-emerald-600 hover:text-emerald-700 text-slate-700 font-bold text-xs flex items-center gap-1.5 shrink-0 self-start sm:self-center transition">
+                        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                        <span>Edit Soal</span>
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function openEditQuestionModal(idx) {
+            const q = questions[idx];
+            document.getElementById('edit-q-index').value = idx;
+            document.getElementById('edit-q-num').textContent = idx + 1;
+            document.getElementById('edit-q-cog').value = q.cog;
+            document.getElementById('edit-q-topic').value = q.topic;
+            document.getElementById('edit-q-stimulus').value = q.stimulus;
+            document.getElementById('edit-q-text').value = q.question;
+
+            const dyn = document.getElementById('edit-q-dynamic-fields');
+            dyn.innerHTML = '';
+
+            if (q.type === 'PG') {
+                const letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach((opt, i) => {
+                    dyn.innerHTML += `
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-0.5">Opsi ${letters[i]}</label>
+                            <input type="text" id="edit-opt-${i}" value="${opt.replace(/"/g, '&quot;')}" required class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs">
+                        </div>
+                    `;
+                });
+                dyn.innerHTML += `
+                    <div>
+                        <label class="block text-[11px] font-bold text-emerald-700 mb-0.5">Kunci Jawaban Benar</label>
+                        <select id="edit-pg-ans" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-bold">
+                            <option value="0" ${q.answer === 0 ? 'selected' : ''}>A</option>
+                            <option value="1" ${q.answer === 1 ? 'selected' : ''}>B</option>
+                            <option value="2" ${q.answer === 2 ? 'selected' : ''}>C</option>
+                            <option value="3" ${q.answer === 3 ? 'selected' : ''}>D</option>
+                        </select>
+                    </div>
+                `;
+            } else if (q.type === 'PGK') {
+                q.options.forEach((opt, i) => {
+                    const checked = q.answer.includes(i) ? 'checked' : '';
+                    dyn.innerHTML += `
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="edit-pgk-chk-${i}" ${checked} class="rounded text-emerald-600">
+                            <input type="text" id="edit-opt-${i}" value="${opt.replace(/"/g, '&quot;')}" required class="flex-1 px-3 py-1.5 rounded-lg border border-slate-300 text-xs">
+                        </div>
+                    `;
+                });
+                dyn.innerHTML += `<p class="text-[11px] text-slate-500">*Centang kotak di sebelah kiri untuk menandai kunci jawaban benar (lebih dari satu).</p>`;
+            } else if (q.type === 'MATCH') {
+                q.pairs.forEach((pair, i) => {
+                    dyn.innerHTML += `
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500">Pernyataan Kiri ${i + 1}</label>
+                                <input type="text" id="edit-match-l-${i}" value="${pair.left.replace(/"/g, '&quot;')}" required class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-emerald-700">Pasangan Benar ${i + 1}</label>
+                                <input type="text" id="edit-match-r-${i}" value="${pair.right.replace(/"/g, '&quot;')}" required class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 text-xs">
+                            </div>
+                        </div>
+                    `;
+                });
+            } else if (q.type === 'ESSAY') {
+                dyn.innerHTML = `
+                    <div>
+                        <label class="block text-[11px] font-bold text-emerald-700 mb-1">Kata Kunci Penilaian Otomatis (Pisahkan dengan koma)</label>
+                        <input type="text" id="edit-essay-kw" value="${q.keywords.join(', ')}" required class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs">
+                    </div>
+                `;
+            }
+
+            document.getElementById('edit-question-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeEditQuestionModal() {
+            document.getElementById('edit-question-modal').classList.add('hidden');
+        }
+
+        function saveEditedQuestion(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('edit-q-index').value);
+            const q = questions[idx];
+
+            q.cog = document.getElementById('edit-q-cog').value;
+            q.topic = document.getElementById('edit-q-topic').value;
+            q.stimulus = document.getElementById('edit-q-stimulus').value;
+            q.question = document.getElementById('edit-q-text').value;
+
+            if (q.type === 'PG') {
+                q.options = [0, 1, 2, 3].map(i => document.getElementById(`edit-opt-${i}`).value);
+                q.answer = parseInt(document.getElementById('edit-pg-ans').value);
+            } else if (q.type === 'PGK') {
+                q.options = [0, 1, 2, 3].map(i => document.getElementById(`edit-opt-${i}`).value);
+                const newAns = [];
+                [0, 1, 2, 3].forEach(i => {
+                    if (document.getElementById(`edit-pgk-chk-${i}`).checked) newAns.push(i);
+                });
+                if (newAns.length === 0) {
+                    showModal('Peringatan', 'Pilih minimal satu kunci jawaban benar untuk soal PG Kompleks.', 'warning');
+                    return;
+                }
+                q.answer = newAns;
+            } else if (q.type === 'MATCH') {
+                q.pairs = q.pairs.map((_, i) => ({
+                    left: document.getElementById(`edit-match-l-${i}`).value,
+                    right: document.getElementById(`edit-match-r-${i}`).value
+                }));
+            } else if (q.type === 'ESSAY') {
+                const kwStr = document.getElementById('edit-essay-kw').value;
+                q.keywords = kwStr.split(',').map(s => s.trim()).filter(Boolean);
+            }
+
+            closeEditQuestionModal();
+            renderAdminQuestionsList();
+            showModal('Berhasil Disimpan', `Perubahan pada soal nomor ${idx + 1} telah berhasil disimpan.`, 'info');
+        }
+
+        function resetDefaultQuestions() {
+            showModal('Reset Soal', 'Apakah Anda yakin ingin mengembalikan seluruh 40 butir soal ke pengaturan awal?', 'confirm', () => {
+                questions = JSON.parse(JSON.stringify(defaultQuestions));
+                renderAdminQuestionsList();
+                showModal('Reset Berhasil', 'Seluruh soal telah dikembalikan ke versi awal.', 'info');
+            });
+        }
+
+        // Results Table & Export
+        function renderAdminResultsTable() {
+            const tbody = document.getElementById('admin-results-tbody');
+            tbody.innerHTML = '';
+
+            if (examRecords.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="p-8 text-center text-slate-400 text-xs">Belum ada siswa yang menyelesaikan asesmen pada sesi ini.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            examRecords.forEach((rec, i) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50';
+                tr.innerHTML = `
+                    <td class="p-3 font-medium">${i + 1}</td>
+                    <td class="p-3 font-bold text-slate-800">${rec.name}</td>
+                    <td class="p-3">${rec.className}</td>
+                    <td class="p-3">${rec.absen}</td>
+                    <td class="p-3">Ke-${rec.attempt}</td>
+                    <td class="p-3 font-extrabold text-base ${rec.passed ? 'text-emerald-700' : 'text-rose-600'}">${rec.score}</td>
+                    <td class="p-3">
+                        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold ${rec.passed ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                            ${rec.passed ? 'TUNTAS' : 'REMIDI'}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function exportResultsCSV() {
+            if (examRecords.length === 0) {
+                showModal('Data Kosong', 'Belum ada data nilai siswa untuk diunduh.', 'warning');
+                return;
+            }
+            let csv = 'No,Nama Lengkap,Kelas,No Presensi,Percobaan Ke,Nilai Akhir,Status KKM (80),Waktu Selesai\n';
+            examRecords.forEach((r, i) => {
+                csv += `${i + 1},"${r.name}","${r.className}",${r.absen},${r.attempt},${r.score},"${r.passed ? 'TUNTAS' : 'BELUM TUNTAS'}","${r.date}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Rekap_Nilai_ASAS_SKI_VII_MTs_Muallimin_NU.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Logo & Password Settings
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                customLogoDataUrl = e.target.result;
+                applyLogoToUI();
+                showModal('Logo Diperbarui', 'Logo madrasah berhasil diubah dan diterapkan ke seluruh halaman.', 'info');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetLogo() {
+            customLogoDataUrl = null;
+            document.getElementById('logo-upload-input').value = '';
+            applyLogoToUI();
+            showModal('Logo Direset', 'Logo dikembalikan ke logo default MTs Mu\'allimin NU.', 'info');
+        }
+
+        function applyLogoToUI() {
+            const svgEl = document.getElementById('default-logo-svg');
+            const imgEl = document.getElementById('custom-logo-img');
+
+            if (customLogoDataUrl) {
+                svgEl.classList.add('hidden');
+                imgEl.src = customLogoDataUrl;
+                imgEl.classList.remove('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+                svgEl.classList.remove('hidden');
+            }
+            updateSettingsLogoPreview();
+        }
+
+        function updateSettingsLogoPreview() {
+            const preview = document.getElementById('settings-logo-preview');
+            if (preview) {
+                preview.innerHTML = document.getElementById('header-logo-container').innerHTML;
+            }
+        }
+
+        function handleChangeAdminPassword(e) {
+            e.preventDefault();
+            const newUser = document.getElementById('new-admin-user').value.trim();
+            const newPass = document.getElementById('new-admin-pass').value;
+
+            if (!newUser || newPass.length < 4) {
+                showModal('Input Tidak Valid', 'Username tidak boleh kosong dan password minimal 4 karakter.', 'warning');
+                return;
+            }
+
+            adminCreds.username = newUser;
+            adminCreds.password = newPass;
+            document.getElementById('new-admin-pass').value = '';
+            showModal('Kredensial Diperbarui', `Username admin kini "${newUser}" dan password berhasil diperbarui.`, 'info');
+        }
+
+        // Initialize Lucide Icons on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
